@@ -7,7 +7,6 @@ import {
   type Theme,
   type VariantProp,
 } from "@mui/joy/styles";
-import { neutral, primary, success } from "./palettes";
 
 export const schemes = ["light", "dark"] as const;
 export const defaultScheme = "light";
@@ -34,51 +33,34 @@ export const joyVariants = [
 ] as const satisfies VariantProp[];
 export type JoyVariant = (typeof joyVariants)[number];
 
-const common: Palette["common"] = {
-  white: neutral[50],
-  black: neutral[900],
-};
-
 export const overrideThemeOptions: CssVarsThemeOptions = {
   cssVarPrefix: "joy",
   colorSchemes: {
     light: {
       palette: {
-        common,
         neutral: {
-          ...neutral,
           solidBg: "var(--joy-palette-neutral-900)",
           solidColor: "var(--joy-palette-neutral-100)",
           solidHoverBg: "var(--joy-palette-neutral-800)",
           solidActiveBg: "var(--joy-palette-neutral-700)",
         },
-        primary: {
-          ...primary,
-        },
-        success: {
-          ...success,
-        },
       },
     },
     dark: {
       palette: {
-        common,
         neutral: {
-          ...neutral,
           solidBg: "var(--joy-palette-neutral-100)",
           solidColor: "var(--joy-palette-neutral-900)",
           solidHoverBg: "var(--joy-palette-neutral-300)",
           solidActiveBg: "var(--joy-palette-neutral-400)",
         },
         primary: {
-          ...primary,
           solidBg: "var(--joy-palette-primary-700)",
           solidColor: "var(--joy-palette-primary-50)",
           solidHoverBg: "var(--joy-palette-primary-600)",
           solidActiveBg: "var(--joy-palette-primary-500)",
         },
         success: {
-          ...success,
           solidBg: "var(--joy-palette-success-700)",
           solidColor: "var(--joy-palette-success-50)",
           solidHoverBg: "var(--joy-palette-success-600)",

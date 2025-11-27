@@ -148,7 +148,9 @@ export default function NavigationBar({
               direction="row"
               gap={1}
             >
-              Navigation items
+              <Typography level="body-sm" fontFamily="monospace">
+                Navigation items go here
+              </Typography>
             </Stack>
           )}
           <LayoutGroup id="mobile-menu">
