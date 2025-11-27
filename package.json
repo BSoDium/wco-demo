@@ -12,17 +12,20 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@iconify-json/hugeicons": "^1.2.18",
-    "@iconify-json/lucide": "^1.2.75",
     "@mui/joy": "^5.0.0-beta.52",
-    "mapbox-gl": "^3.16.0",
     "motion": "^12.23.24",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-router": "^7.9.6"
+    "react-router": "^7.9.6",
+    "react-router-dom": "^7.9.6",
+    "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@iconify-json/hugeicons": "^1.2.18",
+    "@iconify-json/lucide": "^1.2.75",
+    "@svgr/core": "^8.1.0",
+    "@svgr/plugin-jsx": "^8.1.0",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
@@ -36,6 +39,8 @@
     "typescript-eslint": "^8.46.4",
     "unplugin-icons": "^22.5.0",
     "vite": "npm:rolldown-vite@7.2.5",
+    "vite-plugin-mkcert": "^1.17.9",
+    "vite-plugin-pwa": "^1.1.0",
     "vite-tsconfig-paths": "^5.1.4"
   },
   "resolutions": {
