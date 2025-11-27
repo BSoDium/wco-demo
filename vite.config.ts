@@ -22,27 +22,33 @@ export default defineConfig({
     }),
     // Automatically resolve paths based on the `tsconfig.json` file
     tsconfigPaths(),
+    // Progressive Web App support
     VitePWA({
       registerType: "autoUpdate",
       injectRegister: "auto",
-      includeAssets: ["favicon.ico", "apple-touch-icon.png", "mask-icon.svg"],
+      devOptions: {
+        enabled: true,
+      },
+      includeAssets: ["icon.svg"],
       manifest: {
         name: "WCO Demo App",
         short_name: "WCO Demo",
         description: "A demo app for Window Controls Overlay",
         theme_color: "#ffffff",
+        background_color: "#ffffff",
         display: "standalone",
         display_override: ["window-controls-overlay"],
+        start_url: "/",
         icons: [
           {
-            src: "pwa-192x192.png",
+            src: "icon.svg",
             sizes: "192x192",
-            type: "image/png",
+            type: "image/svg+xml",
           },
           {
-            src: "pwa-512x512.png",
+            src: "icon.svg",
             sizes: "512x512",
-            type: "image/png",
+            type: "image/svg+xml",
           },
         ],
       },
