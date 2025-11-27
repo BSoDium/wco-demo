@@ -1,4 +1,5 @@
 import ThemeSwitcher from "@/components/navigation/ThemeSwitcher";
+import InstallButton from "@/components/navigation/InstallButton";
 import useBreakpoint from "@/hooks/useBreakpoint";
 import { Stack, Typography } from "@mui/joy";
 import {
@@ -165,6 +166,7 @@ export default function NavigationBar({
               alignItems="center"
               position="relative"
             >
+              <InstallButton />
               <ThemeSwitcher />
             </Stack>
           </LayoutGroup>
