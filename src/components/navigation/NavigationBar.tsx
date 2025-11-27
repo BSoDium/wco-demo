@@ -99,6 +99,8 @@ export default function NavigationBar({
           padding: "0 1.5rem",
           width: "100vw",
           zIndex: 1000,
+          backgroundColor: "var(--joy-palette-background-surface)",
+          borderBottom: "1px solid var(--joy-palette-divider)",
         }}
       >
         <Stack
