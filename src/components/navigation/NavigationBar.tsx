@@ -4,7 +4,6 @@ import { Stack, Typography } from "@mui/joy";
 import {
   LayoutGroup,
   motion,
-  useMotionTemplate,
   useMotionValue,
   useMotionValueEvent,
   useScroll,
@@ -56,30 +55,6 @@ export default function NavigationBar({
     () => pageScrollY.get() + navY.get() + height
   );
 
-  // Handle nav background visibility on scroll
-  const { scrollYProgress: navScrollProgressY } = useScroll({
-    axis: "y",
-    offset: [`${-height}px start`, `${height}px start`],
-  });
-  const navBackgroundVisibility = useTransform(
-    navScrollProgressY,
-    [1, 0.5],
-    ["80%", "0%"]
-  );
-  const navBackground = useMotionTemplate`color-mix(in srgb, var(--joy-palette-background-surface) ${navBackgroundVisibility}, transparent)`;
-
-  // Handle nav border visibility on scroll
-  const navBorderVisibility = useTransform(
-    navScrollProgressY,
-    [1, 0.5],
-    ["100%", "0%"]
-  );
-  const navBorder = useMotionTemplate`1px solid color-mix(in srgb, var(--joy-palette-neutral-outlinedBorder) ${navBorderVisibility}, transparent)`;
-
-  // Handle nav blur strength on scroll
-  const navBlurStrength = useTransform(navScrollProgressY, [1, 0.5], [20, 0]);
-  const navBackdropFilter = useMotionTemplate`blur(${navBlurStrength}px)`;
-
   const navRef = useRef<HTMLElement>(null);
 
   return (
@@ -114,7 +89,7 @@ export default function NavigationBar({
         id="navigation-bar"
         component={motion.nav}
         style={{
-          position: "absolute",
+          position: "sticky",
           top: 0,
           left: 0,
           y: navY,
@@ -124,9 +99,6 @@ export default function NavigationBar({
           padding: "0 1.5rem",
           width: "100vw",
           zIndex: 1000,
-          background: navBackground,
-          backdropFilter: navBackdropFilter,
-          borderBottom: navBorder,
         }}
       >
         <Stack
