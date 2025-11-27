@@ -1,7 +1,3 @@
-:root {
-  --titlebar-height: 40px;
-}
-
 html {
   font-family: 'Inter Variable', sans-serif;
 }
@@ -10,7 +6,7 @@ body {
   margin: 0;
   padding: 0;
   /* Push content down by the height of the title bar */
-  padding-top: env(titlebar-area-height, var(--titlebar-height));
+  padding-top: env(titlebar-area-height);
 }
 
 .wco-titlebar {
@@ -18,17 +14,18 @@ body {
   left: env(titlebar-area-x, 0);
   top: env(titlebar-area-y, 0);
   width: env(titlebar-area-width, 100%);
-  height: env(titlebar-area-height, var(--titlebar-height));
+  height: env(titlebar-area-height);
   z-index: 1000;
   display: flex;
   align-items: center;
   padding: 0 16px;
   box-sizing: border-box;
   -webkit-app-region: drag;
-  background-color: #f0f0f0; /* Default background */
-  
+  background-color: #f0f0f0;
+  /* Default background */
+
   /* Ensure interactive elements are clickable */
-  & > * {
+  &>* {
     -webkit-app-region: no-drag;
   }
 }
@@ -37,6 +34,7 @@ body {
    but we usually want our element to be transparent or have a specific color. */
 @media (display-mode: window-controls-overlay) {
   .wco-titlebar {
-    background-color: transparent; /* Let the app background show through or style as needed */
+    background-color: transparent;
+    /* Let the app background show through or style as needed */
   }
 }
