@@ -30,6 +30,8 @@ import IconCircle from "~icons/lucide/circle";
 import IconBox from "~icons/lucide/box";
 import IconTarget from "~icons/lucide/target";
 import IconHexagon from "~icons/lucide/hexagon";
+import IconFlaskConical from "~icons/lucide/flask-conical";
+import IconPaintBucket from "~icons/lucide/paint-bucket";
 import IconCommand from "~icons/lucide/command";
 
 const projects = [
@@ -113,6 +115,26 @@ const projects = [
     icon: <IconBox />,
     color: "primary",
   },
+  {
+    name: "svg-gradients",
+    domain: "svg-gradients.vercel.app",
+    repo: "BSoDium/svg-gradients",
+    commit: "refactor: improve masking in Abstract gradient art",
+    time: "6/7/24",
+    branch: "main",
+    icon: <IconFlaskConical />,
+    color: "success",
+  },
+  {
+    name: "avatar",
+    domain: "avatar.bsodium.fr",
+    repo: "BSoDium/avatar",
+    commit: "fix: adjust position of Socials component",
+    time: "6/14/24",
+    branch: "main",
+    icon: <IconPaintBucket />,
+    color: "warning",
+  }
 ] as const;
 
 const recentPreviews = [
