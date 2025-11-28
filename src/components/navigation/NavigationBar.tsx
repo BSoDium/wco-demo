@@ -12,8 +12,8 @@ import NavigationBarTabs from "./NavigationBarTabs";
 
 export default function NavigationBar({
   children,
-  collapsedHeight = 50,
-  expandedHeight = 100,
+  collapsedHeight = 80,
+  expandedHeight = 120,
 }: {
   children: ReactNode | ReactNode[];
   collapsedHeight?: number;
@@ -40,12 +40,15 @@ export default function NavigationBar({
     navY.set(newNavY);
   });
 
+  // Handle top element offset for WCO
+
   // Handle scroll snapping - position anchors at absolute positions
   const snapTopY = useTransform(() => pageScrollY.get() + navY.get());
   const snapBottomY = useTransform(
     () => pageScrollY.get() + navY.get() + heightDiff
   );
 
+  // Ref for the nav element
   const navRef = useRef<HTMLElement>(null);
 
   return (

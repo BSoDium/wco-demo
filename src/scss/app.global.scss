@@ -2,6 +2,7 @@ html {
   font-family: 'Inter Variable', sans-serif;
   scroll-snap-type: y proximity;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
