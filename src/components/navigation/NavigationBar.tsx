@@ -8,21 +8,33 @@ import {
 } from "motion/react";
 import { type ReactNode, useRef } from "react";
 import { useTitleBarRect } from "@/hooks/useTitleBarRect";
+import NavigationBarHeader from "./NavigationBarHeader";
 import NavigationBarTabs from "./NavigationBarTabs";
 
 export default function NavigationBar({
   children,
-  collapsedHeight = 80,
-  expandedHeight = 120,
+  collapsedHeight: collapsedHeightFactory = (rect) =>
+    rect && rect.height > 0 ? 41 + rect.height : 41,
+  expandedHeight: expandedHeightFactory = 120,
 }: {
   children: ReactNode | ReactNode[];
-  collapsedHeight?: number;
-  expandedHeight?: number;
+  collapsedHeight?: ((titleBarRect?: DOMRect | null) => number) | number;
+  expandedHeight?: ((titleBarRect?: DOMRect | null) => number) | number;
 }) {
-  const heightDiff = expandedHeight - collapsedHeight;
-
   // Retrieve title bar rectangle for WCO support
   const titleBarRect = useTitleBarRect();
+  console.log("Title bar rect:", titleBarRect);
+
+  // Determine heights
+  const collapsedHeight =
+    typeof collapsedHeightFactory === "function"
+      ? collapsedHeightFactory(titleBarRect)
+      : collapsedHeightFactory;
+  const expandedHeight =
+    typeof expandedHeightFactory === "function"
+      ? expandedHeightFactory(titleBarRect)
+      : expandedHeightFactory;
+  const heightVariation = expandedHeight - collapsedHeight;
 
   // Observe page scroll position
   const { scrollY: pageScrollY } = useScroll({ axis: "y" });
@@ -36,7 +48,7 @@ export default function NavigationBar({
     const currentNavY = navY.get();
     let newNavY = currentNavY - delta;
     if (newNavY > 0) newNavY = 0;
-    if (newNavY < -heightDiff) newNavY = -heightDiff;
+    if (newNavY < -heightVariation) newNavY = -heightVariation;
     navY.set(newNavY);
   });
 
@@ -45,7 +57,7 @@ export default function NavigationBar({
   // Handle scroll snapping - position anchors at absolute positions
   const snapTopY = useTransform(() => pageScrollY.get() + navY.get());
   const snapBottomY = useTransform(
-    () => pageScrollY.get() + navY.get() + heightDiff
+    () => pageScrollY.get() + navY.get() + heightVariation
   );
 
   // Ref for the nav element
@@ -98,9 +110,7 @@ export default function NavigationBar({
           borderBottom: "1px solid var(--joy-palette-divider)",
         }}
       >
-        <Stack direction="row" id="navigation-bar-top">
-          top
-        </Stack>
+        <NavigationBarHeader />
         <NavigationBarTabs />
       </Stack>
       {children}
