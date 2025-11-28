@@ -353,7 +353,7 @@ export default function Main() {
                           <Typography level="body-xs">Preview</Typography>
                         </Box>
                       </ListItemContent>
-                      <IconButton size="sm" variant="plain" color="neutral">
+                      <IconButton size="sm" variant="plain" color="neutral" aria-label="More options">
                         <IconMoreHorizontal />
                       </IconButton>
                     </ListItem>
