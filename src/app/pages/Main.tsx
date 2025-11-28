@@ -409,10 +409,11 @@ export default function Main() {
                         variant="outlined"
                         color="neutral"
                         sx={{ borderRadius: "50%" }}
+                        aria-label="View activity"
                       >
                         <IconActivity />
                       </IconButton>
-                      <IconButton size="sm" variant="plain" color="neutral">
+                      <IconButton size="sm" variant="plain" color="neutral" aria-label="More options">
                         <IconMoreHorizontal />
                       </IconButton>
                     </Box>
