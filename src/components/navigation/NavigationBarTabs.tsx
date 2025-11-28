@@ -33,13 +33,22 @@ export default function NavigationBarTabs() {
         sx={{
           px: 2,
           pb: 1,
+          overflowX: "auto",
+          scrollbarWidth: "none",
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
         }}
       >
         {navigationBarTabStructure.map((tab) => (
           <NavLink
             key={tab.path}
             to={tab.path}
-            style={{ textDecoration: "none", position: "relative" }}
+            style={{
+              textDecoration: "none",
+              position: "relative",
+              flexShrink: 0,
+            }}
             onMouseEnter={() => setHoveredTab(tab.path)}
           >
             {({ isActive }) => (
