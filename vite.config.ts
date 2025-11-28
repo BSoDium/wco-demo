@@ -29,7 +29,12 @@ export default defineConfig({
       devOptions: {
         enabled: true,
       },
-      includeAssets: ["icon.svg"],
+      includeAssets: [
+        "favicon.ico",
+        "apple-touch-icon.png",
+        "favicon-16x16.png",
+        "favicon-32x32.png",
+      ],
       manifest: {
         name: "WCO Demo App",
         short_name: "WCO Demo",
@@ -40,14 +45,14 @@ export default defineConfig({
         start_url: "/",
         icons: [
           {
-            src: "icon.svg",
+            src: "android-chrome-192x192.png",
             sizes: "192x192",
-            type: "image/svg+xml",
+            type: "image/png",
           },
           {
-            src: "icon.svg",
+            src: "android-chrome-512x512.png",
             sizes: "512x512",
-            type: "image/svg+xml",
+            type: "image/png",
           },
         ],
       },
