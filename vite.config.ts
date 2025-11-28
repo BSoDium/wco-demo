@@ -35,7 +35,6 @@ export default defineConfig({
         short_name: "WCO Demo",
         description: "A demo app for Window Controls Overlay",
         theme_color: "#ffffff",
-        background_color: "#ffffff",
         display: "standalone",
         display_override: ["window-controls-overlay"],
         start_url: "/",

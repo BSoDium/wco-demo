@@ -5,5 +5,8 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--joy-palette-background-body);
+}
+
+:root {
+  background-color: var(--joy-palette-background-surface);
 }
