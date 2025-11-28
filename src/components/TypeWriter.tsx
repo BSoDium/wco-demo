@@ -1,6 +1,5 @@
 import { css } from "@emotion/react";
 import { Typography } from "@mui/joy";
-import type { SxProps } from "@mui/joy/styles/types";
 import React, { useEffect, useState, type ComponentProps } from "react";
 
 /**
