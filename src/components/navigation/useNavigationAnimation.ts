@@ -6,21 +6,23 @@ import {
   useTransform,
   type MotionValue,
 } from "motion/react";
+import type { HeightFactory } from "./NavigationBar";
 
 export function useNavigationHeights(
+  isInstalled: boolean,
   titleBarRect: DOMRect | null,
-  collapsedHeightFactory: ((rect?: DOMRect | null) => number) | number,
-  expandedHeightFactory: ((rect?: DOMRect | null) => number) | number
+  collapsedHeightFactory: HeightFactory | number,
+  expandedHeightFactory: HeightFactory | number
 ) {
   const usesWCO = titleBarRect !== null && titleBarRect.height > 0;
 
   const collapsedHeight =
     typeof collapsedHeightFactory === "function"
-      ? collapsedHeightFactory(titleBarRect)
+      ? collapsedHeightFactory(titleBarRect, isInstalled)
       : collapsedHeightFactory;
   const expandedHeight =
     typeof expandedHeightFactory === "function"
-      ? expandedHeightFactory(titleBarRect)
+      ? expandedHeightFactory(titleBarRect, isInstalled)
       : expandedHeightFactory;
   const heightVariation = expandedHeight - collapsedHeight;
 

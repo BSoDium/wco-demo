@@ -10,18 +10,24 @@ import {
   useNavigationLayout,
   useNavigationScroll,
 } from "./useNavigationAnimation";
+import { usePWAInstall } from "@/hooks/usePWAInstall";
 
 // Default height factories
-const defaultCollapsedHeight = (rect?: DOMRect | null) =>
-  rect && rect.height > 0 ? 50 + rect.height : 41;
+export type HeightFactory = (
+  titleBarRect: DOMRect | null,
+  isInstalled: boolean
+) => number;
 
-const defaultExpandedHeight = (rect?: DOMRect | null) =>
-  rect && rect.height > 0 ? 120 : 81;
+const defaultCollapsedHeight: HeightFactory = (rect, isInstalled) =>
+  rect && rect.height > 0 ? 50 + rect.height : 41 + (isInstalled ? 0 : 5);
+
+const defaultExpandedHeight: HeightFactory = (rect, isInstalled) =>
+  rect && rect.height > 0 ? 120 : 81 + (isInstalled ? 0 : 10);
 
 interface NavigationBarProps {
   children: ReactNode | ReactNode[];
-  collapsedHeight?: ((titleBarRect?: DOMRect | null) => number) | number;
-  expandedHeight?: ((titleBarRect?: DOMRect | null) => number) | number;
+  collapsedHeight?: HeightFactory | number;
+  expandedHeight?: HeightFactory | number;
 }
 
 export default function NavigationBar({
@@ -31,9 +37,11 @@ export default function NavigationBar({
 }: NavigationBarProps) {
   // 1. Get Title Bar Rect
   const titleBarRect = useTitleBarRect();
+  const { isInstalled } = usePWAInstall();
 
   // 2. Calculate Heights
   const { usesWCO, expandedHeight, heightVariation } = useNavigationHeights(
+    isInstalled,
     titleBarRect,
     collapsedHeightFactory,
     expandedHeightFactory
@@ -124,13 +132,13 @@ function NavigationSnapAnchors({
   );
 
   const anchorStyle = {
-    position: "absolute" as const,
-    scrollSnapAlign: "start" as const,
+    position: "absolute",
+    scrollSnapAlign: "start",
     width: "100vw",
     height: 1,
     background: "transparent",
     zIndex: 10000,
-  };
+  } as const;
 
   return (
     <>

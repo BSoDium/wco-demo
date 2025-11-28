@@ -22,7 +22,7 @@ export default function FadingTypography({
 } & ComponentProps<typeof Typography>) {
   return (
     <Typography component="span" {...rest}>
-      <AnimatePresence mode="wait" onExitComplete={onTransitionEnd}>
+      <AnimatePresence mode="wait" onExitComplete={onTransitionEnd} initial={false}>
         <motion.span
           key={text}
           initial={{ opacity: 0, y: 5, filter: "blur(8px)" }}
