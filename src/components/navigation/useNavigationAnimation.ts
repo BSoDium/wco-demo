@@ -53,7 +53,7 @@ export function useNavigationHeights(
  * @param threshold - The scroll distance required to trigger a state change (default: 100).
  * @returns Object containing the navigation Y motion value and page scroll Y motion value.
  */
-export function useNavigationScroll(
+export function useNavigationScrollBehavior(
   heightVariation: number,
   threshold: number = 100
 ) {

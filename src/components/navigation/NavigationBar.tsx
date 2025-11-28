@@ -9,7 +9,7 @@ import NavigationBarTitle from "./NavigationBarTitle";
 import {
   useNavigationHeights,
   useNavigationLayout,
-  useNavigationScroll,
+  useNavigationScrollBehavior,
 } from "./useNavigationAnimation";
 
 // Default height factories
@@ -69,7 +69,7 @@ export default function NavigationBar({
   );
 
   // 3. Handle Scroll Logic
-  const { navY, pageScrollY } = useNavigationScroll(heightVariation, threshold);
+  const { navY, pageScrollY } = useNavigationScrollBehavior(heightVariation, threshold);
 
   // 4. Handle Layout Animations
   const { headerPaddingLeft, headerPaddingRight } = useNavigationLayout(
