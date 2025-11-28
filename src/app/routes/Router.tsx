@@ -1,10 +1,12 @@
 import NavigationBar from "@/components/navigation/NavigationBar";
+import useThemeColor from "@/hooks/useThemeColor";
 import { lazy } from "react";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 
 const Main = lazy(() => import("@/app/pages/Main"));
 
 export default function Router() {
+  useThemeColor();
   return (
     <BrowserRouter>
       <Routes>
@@ -15,7 +17,7 @@ export default function Router() {
             </NavigationBar>
           }
         >
-          <Route path="/" element={<Main />} />
+          <Route path="*" element={<Main />} />
         </Route>
       </Routes>
     </BrowserRouter>

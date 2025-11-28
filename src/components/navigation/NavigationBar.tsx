@@ -1,43 +1,45 @@
-import ThemeSwitcher from "@/components/navigation/ThemeSwitcher";
-import useBreakpoint from "@/hooks/useBreakpoint";
-import { Stack, Typography } from "@mui/joy";
+import { Stack } from "@mui/joy";
 import {
-  LayoutGroup,
   motion,
-  useMotionTemplate,
   useMotionValue,
   useMotionValueEvent,
   useScroll,
   useTransform,
 } from "motion/react";
-import { type ReactNode, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { type ReactNode, useRef } from "react";
+import { useTitleBarRect } from "@/hooks/useTitleBarRect";
+import NavigationBarHeader from "./NavigationBarHeader";
+import NavigationBarTabs from "./NavigationBarTabs";
 
 export default function NavigationBar({
   children,
-  height = 64,
+  collapsedHeight: collapsedHeightFactory = (rect) =>
+    rect && rect.height > 0 ? 50 + rect.height : 41,
+  expandedHeight: expandedHeightFactory = (rect) =>
+    rect && rect.height > 0 ? 120 : 81,
 }: {
   children: ReactNode | ReactNode[];
-  height?: number;
+  collapsedHeight?: ((titleBarRect?: DOMRect | null) => number) | number;
+  expandedHeight?: ((titleBarRect?: DOMRect | null) => number) | number;
 }) {
-  const compact = useBreakpoint("down", "md");
+  // Retrieve title bar rectangle for WCO support
+  const titleBarRect = useTitleBarRect();
 
-  // Set document-level CSS variable for nav height
-  useEffect(() => {
-    document.documentElement.style.setProperty(
-      "--navigation-bar-height",
-      `${height}px`
-    );
-
-    return () => {
-      document.documentElement.style.removeProperty("--navigation-bar-height");
-    };
-  }, [height]);
+  // Determine heights
+  const collapsedHeight =
+    typeof collapsedHeightFactory === "function"
+      ? collapsedHeightFactory(titleBarRect)
+      : collapsedHeightFactory;
+  const expandedHeight =
+    typeof expandedHeightFactory === "function"
+      ? expandedHeightFactory(titleBarRect)
+      : expandedHeightFactory;
+  const heightVariation = expandedHeight - collapsedHeight;
 
   // Observe page scroll position
   const { scrollY: pageScrollY } = useScroll({ axis: "y" });
 
-  // Handle nav hide/show on scroll with GPU-accelerated transforms
+  // Handle nav collapse/expand on scroll with GPU-accelerated transforms
   const navY = useMotionValue(0);
   useMotionValueEvent(pageScrollY, "change", (latest) => {
     const previous = pageScrollY.getPrevious() || 0;
@@ -46,40 +48,34 @@ export default function NavigationBar({
     const currentNavY = navY.get();
     let newNavY = currentNavY - delta;
     if (newNavY > 0) newNavY = 0;
-    if (newNavY < -height) newNavY = -height;
+    if (newNavY < -heightVariation) newNavY = -heightVariation;
     navY.set(newNavY);
   });
+
+  // Handle header padding for WCO
+  const headerPaddingLeft = useTransform(
+    navY,
+    [0, -10],
+    [16, titleBarRect && titleBarRect.x ? titleBarRect.x : 16]
+  );
+  const headerPaddingRight = useTransform(
+    navY,
+    [0, -10],
+    [
+      16,
+      titleBarRect && titleBarRect.x
+        ? window.innerWidth - (titleBarRect.x + titleBarRect.width)
+        : 16,
+    ]
+  );
 
   // Handle scroll snapping - position anchors at absolute positions
   const snapTopY = useTransform(() => pageScrollY.get() + navY.get());
   const snapBottomY = useTransform(
-    () => pageScrollY.get() + navY.get() + height
+    () => pageScrollY.get() + navY.get() + heightVariation
   );
 
-  // Handle nav background visibility on scroll
-  const { scrollYProgress: navScrollProgressY } = useScroll({
-    axis: "y",
-    offset: [`${-height}px start`, `${height}px start`],
-  });
-  const navBackgroundVisibility = useTransform(
-    navScrollProgressY,
-    [1, 0.5],
-    ["80%", "0%"]
-  );
-  const navBackground = useMotionTemplate`color-mix(in srgb, var(--joy-palette-background-surface) ${navBackgroundVisibility}, transparent)`;
-
-  // Handle nav border visibility on scroll
-  const navBorderVisibility = useTransform(
-    navScrollProgressY,
-    [1, 0.5],
-    ["100%", "0%"]
-  );
-  const navBorder = useMotionTemplate`1px solid color-mix(in srgb, var(--joy-palette-neutral-outlinedBorder) ${navBorderVisibility}, transparent)`;
-
-  // Handle nav blur strength on scroll
-  const navBlurStrength = useTransform(navScrollProgressY, [1, 0.5], [20, 0]);
-  const navBackdropFilter = useMotionTemplate`blur(${navBlurStrength}px)`;
-
+  // Ref for the nav element
   const navRef = useRef<HTMLElement>(null);
 
   return (
@@ -90,9 +86,10 @@ export default function NavigationBar({
           position: "absolute",
           scrollSnapAlign: "start",
           top: snapTopY,
-          width: "100%",
+          width: "100vw",
           height: 1,
           background: "transparent",
+          zIndex: 10000,
         }}
       />
       <motion.span
@@ -101,98 +98,40 @@ export default function NavigationBar({
           position: "absolute",
           scrollSnapAlign: "start",
           top: snapBottomY,
-          width: "100%",
+          width: "100vw",
           height: 1,
           background: "transparent",
+          zIndex: 10000,
         }}
       />
       <Stack
         ref={navRef}
-        direction="row"
+        direction="column"
         layoutId="navigation-bar"
         layoutRoot
         id="navigation-bar"
         component={motion.nav}
         style={{
-          position: "absolute",
+          position: "sticky",
           top: 0,
           left: 0,
           y: navY,
-          height: `${height}px`,
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "0 1.5rem",
+          height: `${expandedHeight}px`,
+          justifyContent: "flex-end",
+          padding: 0,
           width: "100vw",
           zIndex: 1000,
-          background: navBackground,
-          backdropFilter: navBackdropFilter,
-          borderBottom: navBorder,
+          backgroundColor: "var(--joy-palette-background-surface)",
+          borderBottom: "1px solid var(--joy-palette-divider)",
         }}
       >
-        <Stack
-          gap={4}
-          flex={1}
-          direction={"row"}
-          maxWidth={"80rem"}
-          alignItems={"center"}
-        >
-          <Typography
-            id="nav-logo"
-            level="title-lg"
-            textColor="text.secondary"
-            fontFamily="'Fira Code', monospace"
-            height="1.6rem"
-            component={Link}
-            to="/"
-            sx={{
-              textDecoration: "none",
-            }}
-          >
-            <Typography textColor="text.primary">BSoD</Typography>
-            <Typography>ium</Typography>
-            <Typography textColor="text.tertiary" fontWeight="sm">
-              .fr
-            </Typography>
-            <Typography
-              fontWeight="sm"
-              component={motion.span}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{
-                repeat: Infinity,
-                duration: 0.5,
-                repeatType: "reverse",
-                ease: "easeInOut",
-              }}
-            >
-              _
-            </Typography>
-          </Typography>
-          {!compact && (
-            <Stack
-              id="nav-items"
-              flex={1}
-              alignItems="flex-start"
-              direction="row"
-              gap={1}
-            >
-              Navigation items
-            </Stack>
-          )}
-          <LayoutGroup id="mobile-menu">
-            <Stack
-              id="nav-buttons"
-              direction="row"
-              flex={1}
-              gap={1}
-              justifyContent="flex-end"
-              alignItems="center"
-              position="relative"
-            >
-              <ThemeSwitcher />
-            </Stack>
-          </LayoutGroup>
-        </Stack>
+        <NavigationBarHeader
+          style={{
+            paddingLeft: headerPaddingLeft,
+            paddingRight: headerPaddingRight,
+          }}
+        />
+        <NavigationBarTabs />
       </Stack>
       {children}
     </>
