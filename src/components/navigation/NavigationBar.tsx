@@ -10,6 +10,7 @@ import { type ReactNode, useRef } from "react";
 import { useTitleBarRect } from "@/hooks/useTitleBarRect";
 import NavigationBarHeader from "./NavigationBarHeader";
 import NavigationBarTabs from "./NavigationBarTabs";
+import NavigationBarTitle from "./NavigationBarTitle";
 
 export default function NavigationBar({
   children,
@@ -24,6 +25,7 @@ export default function NavigationBar({
 }) {
   // Retrieve title bar rectangle for WCO support
   const titleBarRect = useTitleBarRect();
+  const usesWCO = titleBarRect !== null && titleBarRect.height > 0;
 
   // Determine heights
   const collapsedHeight =
@@ -55,19 +57,24 @@ export default function NavigationBar({
   // Handle header padding for WCO
   const headerPaddingLeft = useTransform(
     navY,
-    [0, -10],
-    [16, titleBarRect && titleBarRect.x ? titleBarRect.x : 16]
+    [0, -heightVariation],
+    [16, usesWCO ? titleBarRect.x : 16]
   );
   const headerPaddingRight = useTransform(
     navY,
-    [0, -10],
+    [0, -heightVariation],
     [
       16,
-      titleBarRect && titleBarRect.x
-        ? window.innerWidth - (titleBarRect.x + titleBarRect.width)
-        : 16,
+      usesWCO ? window.innerWidth - (titleBarRect.x + titleBarRect.width) : 16,
     ]
   );
+
+  // Compute title styles
+  const titlePaddingLeft = usesWCO ? titleBarRect.x + 8 : 0;
+  const titlePaddingRight = usesWCO
+    ? window.innerWidth - (titleBarRect.x + titleBarRect.width)
+    : 0;
+  const titleHeight = usesWCO ? titleBarRect.height : 0;
 
   // Handle scroll snapping - position anchors at absolute positions
   const snapTopY = useTransform(() => pageScrollY.get() + navY.get());
@@ -125,6 +132,13 @@ export default function NavigationBar({
           borderBottom: "1px solid var(--joy-palette-divider)",
         }}
       >
+        {usesWCO && (
+          <NavigationBarTitle
+            paddingLeft={titlePaddingLeft}
+            paddingRight={titlePaddingRight}
+            height={titleHeight}
+          />
+        )}
         <NavigationBarHeader
           style={{
             paddingLeft: headerPaddingLeft,

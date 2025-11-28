@@ -11,7 +11,7 @@ import {
 import { motion, type MotionStyle } from "motion/react";
 import IconBell from "~icons/lucide/bell";
 import IconBookOpen from "~icons/lucide/book-open";
-import IconChevronDown from "~icons/lucide/chevron-down";
+import IconChevronUpDown from "~icons/lucide/chevrons-up-down";
 import IconSearch from "~icons/lucide/search";
 import IconTriangle from "~icons/lucide/triangle";
 
@@ -63,7 +63,7 @@ export default function NavigationBarHeader({
         </Chip>
 
         <IconButton size="sm" variant="plain" color="neutral">
-          <IconChevronDown />
+          <IconChevronUpDown />
         </IconButton>
       </Stack>
 
