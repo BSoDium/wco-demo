@@ -4,6 +4,9 @@ import FadingTypography from "../FadingTypography";
 import { css } from "@emotion/react";
 import IconChevronRight from "~icons/lucide/chevron-right";
 
+/**
+ * The title component for the navigation bar, displaying the app name and current page title.
+ */
 export default function NavigationBarTitle({
   paddingLeft = 16,
   paddingRight = 16,
