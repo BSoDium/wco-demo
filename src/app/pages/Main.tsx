@@ -339,6 +339,7 @@ export default function Main() {
                         <Avatar
                           size="sm"
                           src={`https://github.com/${preview.user}.png`}
+                          alt={`${preview.user}'s avatar`}
                         />
                       </ListItemDecorator>
                       <ListItemContent>
