@@ -1,6 +1,7 @@
 import { Stack } from "@mui/joy";
 import { motion, useTransform, type MotionValue } from "motion/react";
-import { type ReactNode, useRef } from "react";
+import { type ReactNode } from "react";
+import { usePWAInstall } from "@/hooks/usePWAInstall";
 import { useTitleBarRect } from "@/hooks/useTitleBarRect";
 import NavigationBarHeader from "./NavigationBarHeader";
 import NavigationBarTabs from "./NavigationBarTabs";
@@ -10,7 +11,6 @@ import {
   useNavigationLayout,
   useNavigationScroll,
 } from "./useNavigationAnimation";
-import { usePWAInstall } from "@/hooks/usePWAInstall";
 
 // Default height factories
 export type HeightFactory = (
@@ -25,15 +25,36 @@ const defaultExpandedHeight: HeightFactory = (rect, isInstalled) =>
   rect && rect.height > 0 ? 120 : 81 + (isInstalled ? 0 : 10);
 
 interface NavigationBarProps {
+  /** The content to be rendered below the navigation bar. */
   children: ReactNode | ReactNode[];
+  /**
+   * Function or number to determine the collapsed height of the navbar.
+   * Defaults to a factory that accounts for WCO and installation status.
+   */
   collapsedHeight?: HeightFactory | number;
+  /**
+   * Function or number to determine the expanded height of the navbar.
+   * Defaults to a factory that accounts for WCO and installation status.
+   */
   expandedHeight?: HeightFactory | number;
+  /**
+   * The scroll distance (in pixels) required to trigger a state change (collapse/expand)
+   * when the navbar is in a stable state (fully expanded or fully collapsed).
+   * Defaults to 100.
+   */
+  threshold?: number;
 }
 
+/**
+ * A responsive navigation bar that supports Window Controls Overlay (WCO) and
+ * scroll-linked animations. It automatically adjusts its layout and height
+ * based on the scroll position and WCO state.
+ */
 export default function NavigationBar({
   children,
   collapsedHeight: collapsedHeightFactory = defaultCollapsedHeight,
   expandedHeight: expandedHeightFactory = defaultExpandedHeight,
+  threshold = 100,
 }: NavigationBarProps) {
   // 1. Get Title Bar Rect
   const titleBarRect = useTitleBarRect();
@@ -48,7 +69,7 @@ export default function NavigationBar({
   );
 
   // 3. Handle Scroll Logic
-  const { navY, pageScrollY } = useNavigationScroll(heightVariation);
+  const { navY, pageScrollY } = useNavigationScroll(heightVariation, threshold);
 
   // 4. Handle Layout Animations
   const { headerPaddingLeft, headerPaddingRight } = useNavigationLayout(
@@ -66,8 +87,6 @@ export default function NavigationBar({
       : 0;
   const titleHeight = usesWCO && titleBarRect ? titleBarRect.height : 0;
 
-  const navRef = useRef<HTMLElement>(null);
-
   return (
     <>
       <NavigationSnapAnchors
@@ -77,7 +96,6 @@ export default function NavigationBar({
       />
 
       <Stack
-        ref={navRef}
         direction="column"
         layoutId="navigation-bar"
         layoutRoot
