@@ -69,7 +69,10 @@ export default function NavigationBar({
   );
 
   // 3. Handle Scroll Logic
-  const { navY, pageScrollY } = useNavigationScrollBehavior(heightVariation, threshold);
+  const { navY, pageScrollY } = useNavigationScrollBehavior(
+    heightVariation,
+    threshold
+  );
 
   // 4. Handle Layout Animations
   const { headerPaddingLeft, headerPaddingRight } = useNavigationLayout(
@@ -135,6 +138,15 @@ export default function NavigationBar({
   );
 }
 
+/**
+ * Renders invisible snap anchors to facilitate scroll snapping behavior
+ * in relation to the navigation bar's position. These anchors help maintain
+ * a fully visible navigation bar, no matter where the scroll position ends up.
+ *
+ * @param pageScrollY - The current vertical scroll position of the page.
+ * @param navY - The current Y position of the navigation bar.
+ * @param heightVariation - The difference between expanded and collapsed heights.
+ */
 function NavigationSnapAnchors({
   pageScrollY,
   navY,
