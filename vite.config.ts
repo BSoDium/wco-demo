@@ -5,6 +5,8 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import { resolve } from "path";
 import { VitePWA } from "vite-plugin-pwa";
 import mkcert from "vite-plugin-mkcert";
+import { themeConfig } from "./src/config/themeConfig";
+import { themeLoaderScript } from "./src/scripts/themeLoader";
 
 /** Whether the app is currently in "development" mode, as opposed to "test" or "production" */
 const dev = process.env.NODE_ENV === "development";
@@ -39,7 +41,7 @@ export default defineConfig({
         name: "WCO Demo App",
         short_name: "WCO Demo",
         description: "A demo app for Window Controls Overlay",
-        theme_color: "#ffffff",
+        theme_color: themeConfig.colors.light,
         display: "standalone",
         display_override: ["window-controls-overlay"],
         start_url: "/",
@@ -59,6 +61,18 @@ export default defineConfig({
     }),
     // Generate a self-signed certificate for local development
     ...(dev ? [mkcert()] : []),
+    // Inject theme loader script into index.html
+    {
+      name: "html-theme-script-injection",
+      transformIndexHtml(html) {
+        const script = `
+          <script>
+            (${themeLoaderScript.toString()})(${JSON.stringify(themeConfig)})
+          </script>
+        `;
+        return html.replace("</head>", `${script}</head>`);
+      },
+    },
   ],
   resolve: {
     alias: {

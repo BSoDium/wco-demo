@@ -8,6 +8,8 @@ import {
   type VariantProp,
 } from "@mui/joy/styles";
 
+import { themeConfig } from "../../../config/themeConfig";
+
 export const schemes = ["light", "dark"] as const;
 export const defaultScheme = "light";
 export type Scheme = (typeof schemes)[number];
@@ -38,6 +40,9 @@ export const overrideThemeOptions: CssVarsThemeOptions = {
   colorSchemes: {
     light: {
       palette: {
+        background: {
+          surface: themeConfig.colors.light,
+        },
         neutral: {
           solidBg: "var(--joy-palette-neutral-900)",
           solidColor: "var(--joy-palette-neutral-100)",
@@ -48,6 +53,9 @@ export const overrideThemeOptions: CssVarsThemeOptions = {
     },
     dark: {
       palette: {
+        background: {
+          surface: themeConfig.colors.dark,
+        },
         neutral: {
           solidBg: "var(--joy-palette-neutral-100)",
           solidColor: "var(--joy-palette-neutral-900)",

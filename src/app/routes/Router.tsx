@@ -17,7 +17,7 @@ export default function Router() {
             </NavigationBar>
           }
         >
-          <Route path="/" element={<Main />} />
+          <Route path="*" element={<Main />} />
         </Route>
       </Routes>
     </BrowserRouter>
