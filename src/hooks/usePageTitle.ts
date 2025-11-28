@@ -1,5 +1,18 @@
 import { useEffect, useState } from "react";
 
+/**
+ * React hook that observes and returns the current document title.
+ *
+ * This hook uses a MutationObserver to track changes to the <title> element in the document head.
+ * It updates the returned `title` value whenever the document's title changes.
+ *
+ * @returns {{ title: string }} An object containing the current document title.
+ *
+ * @remarks
+ * - If the <title> element is missing from the document, the hook will not observe changes.
+ * - The hook only observes changes to the <title> element, not direct assignments to document.title
+ *   unless they also update the <title> element.
+ */
 export function usePageTitle() {
   const [title, setTitle] = useState(document.title);
 
