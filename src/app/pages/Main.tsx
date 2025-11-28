@@ -188,10 +188,10 @@ export default function Main() {
             }
           />
           <Box sx={{ ml: "auto", display: "flex", gap: 1 }}>
-            <IconButton variant="outlined" color="neutral">
+            <IconButton variant="outlined" color="neutral" aria-label="Grid view">
               <IconLayoutGrid />
             </IconButton>
-            <IconButton variant="plain" color="neutral">
+            <IconButton variant="plain" color="neutral" aria-label="List view">
               <IconList />
             </IconButton>
             <Button
