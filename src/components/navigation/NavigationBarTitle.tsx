@@ -1,6 +1,8 @@
-import { Stack } from "@mui/joy";
+import { Stack, Typography } from "@mui/joy";
 import { usePageTitle } from "@/hooks/usePageTitle";
-import TypeWriter from "../TypeWriter";
+import FadingTypography from "../FadingTypography";
+import { css } from "@emotion/react";
+import IconChevronRight from "~icons/lucide/chevron-right";
 
 export default function NavigationBarTitle({
   paddingLeft = 16,
@@ -24,17 +26,29 @@ export default function NavigationBarTitle({
         textOverflow: "ellipsis",
         flexGrow: 1,
       }}
+      css={css`
+        -webkit-app-region: drag;
+      `}
     >
       <Stack
+        direction="row"
         sx={{
           height: `${height}px`,
-          justifyContent: "center",
-          alignItems: "flex-start",
+          alignItems: "center",
+          justifyContent: "flex-start",
         }}
       >
-        <TypeWriter typeInterval={25} level="body-sm" textColor="text.tertiary">
+        <Typography level="body-xs" fontWeight="lg">
+          WCO API Demo
+        </Typography>
+        <IconChevronRight style={{ margin: "0 8px", fontSize: "0.75rem" }} />
+        <FadingTypography
+          level="body-xs"
+          fontWeight="lg"
+          textColor="text.primary"
+        >
           {title}
-        </TypeWriter>
+        </FadingTypography>
       </Stack>
     </Stack>
   );

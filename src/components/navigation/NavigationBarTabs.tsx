@@ -55,7 +55,7 @@ export default function NavigationBarTabs() {
           >
             {({ isActive }) => (
               <>
-                {isActive && <Meta title={`WCO Demo - ${tab.label}`} />}
+                {isActive && <Meta title={tab.label} />}
                 <Box
                   component={motion.div}
                   sx={{
