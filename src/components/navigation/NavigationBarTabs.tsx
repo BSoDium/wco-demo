@@ -33,6 +33,7 @@ export default function NavigationBarTabs() {
         sx={{
           px: 2,
           pb: 1,
+          marginBottom: "-1px",
           overflowX: "auto",
           scrollbarWidth: "none",
           "&::-webkit-scrollbar": {
@@ -87,7 +88,7 @@ export default function NavigationBarTabs() {
                     layoutId="nav-item-active"
                     style={{
                       position: "absolute",
-                      bottom: "-9px",
+                      bottom: "-8px",
                       left: 0,
                       right: 0,
                       height: "2px",

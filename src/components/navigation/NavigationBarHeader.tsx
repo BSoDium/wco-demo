@@ -8,24 +8,30 @@ import {
   Stack,
   Typography,
 } from "@mui/joy";
+import { motion, type MotionStyle } from "motion/react";
 import IconBell from "~icons/lucide/bell";
 import IconBookOpen from "~icons/lucide/book-open";
 import IconChevronDown from "~icons/lucide/chevron-down";
 import IconSearch from "~icons/lucide/search";
 import IconTriangle from "~icons/lucide/triangle";
 
-export default function NavigationBarHeader() {
+export default function NavigationBarHeader({
+  style,
+}: {
+  style?: MotionStyle;
+}) {
   return (
     <Stack
+      component={motion.div}
       direction="row"
       id="navigation-bar-top"
       sx={{
         alignItems: "center",
         justifyContent: "space-between",
         width: "100%",
-        px: 2,
         mb: 1,
       }}
+      style={style}
     >
       {/* Left Side */}
       <Stack direction="row" spacing={1.5} alignItems="center">
@@ -72,7 +78,10 @@ export default function NavigationBarHeader() {
               F
             </Chip>
           }
-          sx={{ width: 240, display: { xs: "none", md: "flex" } }}
+          sx={{
+            width: { md: 150, lg: 240 },
+            display: { sm: "none", md: "flex" },
+          }}
         />
         <Button size="sm" variant="outlined" color="neutral">
           Feedback
@@ -95,6 +104,7 @@ export default function NavigationBarHeader() {
         </IconButton>
         <Avatar
           src="https://github.com/BSoDium.png"
+          variant="outlined"
           size="sm"
           sx={{ cursor: "pointer" }}
         />

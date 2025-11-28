@@ -14,8 +14,9 @@ import NavigationBarTabs from "./NavigationBarTabs";
 export default function NavigationBar({
   children,
   collapsedHeight: collapsedHeightFactory = (rect) =>
-    rect && rect.height > 0 ? 41 + rect.height : 41,
-  expandedHeight: expandedHeightFactory = 120,
+    rect && rect.height > 0 ? 50 + rect.height : 41,
+  expandedHeight: expandedHeightFactory = (rect) =>
+    rect && rect.height > 0 ? 120 : 81,
 }: {
   children: ReactNode | ReactNode[];
   collapsedHeight?: ((titleBarRect?: DOMRect | null) => number) | number;
@@ -23,7 +24,6 @@ export default function NavigationBar({
 }) {
   // Retrieve title bar rectangle for WCO support
   const titleBarRect = useTitleBarRect();
-  console.log("Title bar rect:", titleBarRect);
 
   // Determine heights
   const collapsedHeight =
@@ -52,7 +52,22 @@ export default function NavigationBar({
     navY.set(newNavY);
   });
 
-  // Handle top element offset for WCO
+  // Handle header padding for WCO
+  const headerPaddingLeft = useTransform(
+    navY,
+    [0, -10],
+    [16, titleBarRect && titleBarRect.x ? titleBarRect.x : 16]
+  );
+  const headerPaddingRight = useTransform(
+    navY,
+    [0, -10],
+    [
+      16,
+      titleBarRect && titleBarRect.x
+        ? window.innerWidth - (titleBarRect.x + titleBarRect.width)
+        : 16,
+    ]
+  );
 
   // Handle scroll snapping - position anchors at absolute positions
   const snapTopY = useTransform(() => pageScrollY.get() + navY.get());
@@ -110,7 +125,12 @@ export default function NavigationBar({
           borderBottom: "1px solid var(--joy-palette-divider)",
         }}
       >
-        <NavigationBarHeader />
+        <NavigationBarHeader
+          style={{
+            paddingLeft: headerPaddingLeft,
+            paddingRight: headerPaddingRight,
+          }}
+        />
         <NavigationBarTabs />
       </Stack>
       {children}
