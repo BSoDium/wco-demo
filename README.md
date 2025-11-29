@@ -7,7 +7,7 @@ A comprehensive, SEO-optimized experiment showcasing the **Window Controls Overl
 
 ## Introduction
 
-The [**Window Controls Overlay (WCO) API**](https://developer.mozilla.org/en-US/docs/Web/API/Window_Controls_Overlay_API) is a powerful feature for Desktop PWAs that allows developers to reclaim the title bar area of the application window. By default, installed PWAs have a standard title bar that takes up vertical space. WCO allows your application content to cover the entire window surface—including the title bar—leaving only the critical window controls (close, maximize, minimize) as an overlay.
+The [**Window Controls Overlay (WCO) API**](https://developer.mozilla.org/en-US/docs/Web/API/Window_Controls_Overlay_API) is a powerful feature for Desktop PWAs that allows developers to reclaim the title bar area of the application window. By default, installed PWAs have a standard title bar that takes up vertical space; WCO however, allows your application content to cover the entire window surface, including the title bar, leaving only the critical window controls (close, maximize, minimize) as an overlay.
 
 Despite its potential to create native-like experiences (similar to VS Code, Spotify, or Discord), there are **surprisingly few open-source demos** or comprehensive guides on how to implement it effectively in a React application.
 
@@ -15,11 +15,10 @@ Despite its potential to create native-like experiences (similar to VS Code, Spo
 
 ## Inspiration
 
-The design and interaction model of this demo are heavily inspired by the **Vercel Dashboard toolbar**. We aimed to replicate that premium, fluid feel:
+The design and interaction model of this demo are heavily inspired by the **Vercel Dashboard toolbar**. I aimed to replicate that premium, fluid feel:
 
 -   **Collapsing Header:** The navigation bar smoothly collapses and expands based on scroll direction.
--   **Scroll Thresholds:** To prevent jittery movement, we implemented a "hysteresis" or threshold system. The navbar doesn't snap immediately; it waits for a deliberate scroll action.
--   **Blur & Translucency:** Using modern CSS filters to create a glass-morphism effect that feels native on macOS and Windows.
+-   **Scroll Thresholds:** To prevent jittery movement, I implemented a "hysteresis" or threshold system. The navbar doesn't snap immediately; it waits for a deliberate scroll action.
 
 ## Techniques & implementation
 
@@ -27,8 +26,8 @@ This project demonstrates several advanced frontend techniques:
 
 ### 1. Window Controls Overlay Integration
 The core of the project is the integration with the WCO API.
--   **Manifest Configuration:** We configure `display_override: ["window-controls-overlay"]` in the Web App Manifest (via `vite-plugin-pwa`).
--   **Geometry Tracking:** The custom hook `useTitleBarRect` listens for the `geometrychange` event. This ensures that if the user resizes the window or changes the system text scaling, our UI knows exactly where the native window controls are located and avoids overlapping them.
+-   **Manifest Configuration:** I configure `display_override: ["window-controls-overlay"]` in the Web App Manifest (via `vite-plugin-pwa`).
+-   **Geometry Tracking:** The custom hook `useTitleBarRect` listens for the `geometrychange` event. This ensures that if the user resizes the window or changes the system text scaling, my UI knows exactly where the native window controls are located and avoids overlapping them.
 
 ```typescript
 // Simplified logic from src/hooks/useTitleBarRect.ts
@@ -38,8 +37,8 @@ wco.addEventListener("geometrychange", () => {
 });
 ```
 
-### 2. Scroll-Linked Animations (Framer Motion)
-We use **Framer Motion** (`motion/react`) to handle the complex physics of the navigation bar.
+### 2. Scroll-Linked Animations (Motion)
+I use **Motion** (`motion/react`) to handle the complex physics of the navigation bar.
 -   **Performance:** Animations are driven by `useMotionValue` and `useTransform` to run outside the React render cycle where possible.
 -   **Smart Collapsing:** The `useNavigationScroll` hook implements a buffer system. Scrolling down doesn't hide the navbar immediately; it requires a specific pixel threshold (e.g., 100px) to trigger the collapse, preventing accidental hiding during small adjustments.
 
