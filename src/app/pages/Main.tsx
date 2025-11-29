@@ -176,7 +176,7 @@ export default function Main() {
                 install{" "}
               </Typography>
               this app as a PWA. Don't worry, we make it easy for you, simply
-              click the left button below:
+              click the button below:
             </Typography>
           ) : (
             <Typography
