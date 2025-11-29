@@ -12,6 +12,8 @@ import {
 import IconArrowUpRight from "~icons/lucide/arrow-up-right";
 import IconArrowDown from "~icons/lucide/arrow-down";
 import IconDownload from "~icons/lucide/download";
+import IconCheckCheck from "~icons/lucide/check-check";
+import { css } from "@emotion/react";
 
 export default function Main() {
   const { isInstallable, install, isInstalled } = usePWAInstall();
@@ -84,20 +86,52 @@ export default function Main() {
         />
 
         <Stack alignItems="flex-start" gap={1}>
-          <Typography level="h2" fontWeight="sm">
-            {supportsWCO ? "Good News! " : "Heads Up! "}
-            Your <Typography fontWeight="md">browser</Typography>{" "}
-            {supportsWCO ? (
-              <Typography color="success" fontWeight="md">
-                supports
+          {isInstalled ? (
+            isWCOEnabled ? (
+              <Typography
+                level="h2"
+                fontWeight="sm"
+                endDecorator={
+                  <IconCheckCheck
+                    css={css`
+                      font-size: 1.1em;
+                      & > * {
+                        stroke-width: 1.5px;
+                      }
+                    `}
+                  />
+                }
+              >
+                Well done! Your PWA is&nbsp;
+                <Typography color="success" fontWeight="md">
+                  ready to go
+                </Typography>
               </Typography>
             ) : (
-              <Typography color="danger" fontWeight="md">
-                does not support
+              <Typography level="h2" fontWeight="sm">
+                Almost there! Your PWA is{" "}
+                <Typography color="primary" fontWeight="md">
+                  installed
+                </Typography>
+                , but one more step is needed.
               </Typography>
-            )}{" "}
-            the WCO API.
-          </Typography>
+            )
+          ) : (
+            <Typography level="h2" fontWeight="sm">
+              {supportsWCO ? "Good News! " : "Heads Up! "}
+              Your <Typography fontWeight="md">browser</Typography>{" "}
+              {supportsWCO ? (
+                <Typography color="success" fontWeight="md">
+                  supports
+                </Typography>
+              ) : (
+                <Typography color="danger" fontWeight="md">
+                  does not support
+                </Typography>
+              )}{" "}
+              the WCO API.
+            </Typography>
+          )}
           {isInstalled ? (
             isWCOEnabled ? (
               <Typography
@@ -175,8 +209,8 @@ export default function Main() {
               <Typography fontWeight="lg" textColor="text.primary">
                 is not compatible
               </Typography>{" "}
-              with the Window Controls Overlay API. At the time of writing, WCO is
-              supported in Chromium-based browsers like Chrome, or Edge on
+              with the Window Controls Overlay API. At the time of writing, WCO
+              is supported in Chromium-based browsers like Chrome, or Edge on
               desktop platforms.
             </Typography>
           )}
