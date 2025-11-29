@@ -142,7 +142,7 @@ export function useNavigationLayout(
   const headerPaddingLeft = useTransform(
     navY,
     [0, -heightVariation],
-    [16, usesWCO && titleBarRect ? titleBarRect.x + 16 : 16],
+    [24, usesWCO && titleBarRect ? titleBarRect.x + 16 : 24],
     {
       ease: cubicBezier(1, 0, 1, 0),
     }
@@ -152,10 +152,10 @@ export function useNavigationLayout(
     navY,
     [0, -heightVariation],
     [
-      16,
+      24,
       usesWCO && titleBarRect
         ? window.innerWidth - (titleBarRect.x + titleBarRect.width) + 16
-        : 16,
+        : 24,
     ],
     {
       ease: cubicBezier(1, 0, 1, 0),

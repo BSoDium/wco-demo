@@ -30,7 +30,7 @@ export default function NavigationBarHeader({
         alignItems: "center",
         justifyContent: "space-between",
         width: "100%",
-        mb: 1,
+        mb: 1.5,
       }}
       style={style}
     >
@@ -62,9 +62,23 @@ export default function NavigationBarHeader({
             outline: "1px solid var(--joy-palette-neutral-outlinedBorder)",
           }}
         />
-        <Typography level="title-sm">Photonsquid</Typography>
+        <Typography
+          level="title-sm"
+          sx={{
+            display: { xs: "none", sm: "block" },
+          }}
+        >
+          Photonsquid
+        </Typography>
 
-        <Chip size="sm" variant="soft" color="neutral">
+        <Chip
+          size="sm"
+          variant="soft"
+          color="neutral"
+          sx={{
+            display: { xs: "none", sm: "inline-block" },
+          }}
+        >
           Hobby
         </Chip>
 

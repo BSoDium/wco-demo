@@ -1,6 +1,8 @@
 /// <reference types="vite/client" />
 /// <reference types="unplugin-icons/types/react" />
 /// <reference types="@emotion/react/types/css-prop" />
+/// <reference types="vite-plugin-svgr/client" />
+
 
 // TODO: Remove this once Window Controls Overlay is more widely supported
 interface WindowControlsOverlay extends EventTarget {
