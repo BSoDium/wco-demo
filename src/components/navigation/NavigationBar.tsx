@@ -18,11 +18,32 @@ export type HeightFactory = (
   isInstalled: boolean
 ) => number;
 
+// Navigation configuration constants
+const NAV_CONFIG = {
+  WCO: {
+    HEADER_HEIGHT: 92, // Header + Tabs
+  },
+  DEFAULT: {
+    COLLAPSED_HEIGHT: 41,
+    EXPANDED_HEIGHT: 81,
+  },
+  PWA: {
+    COLLAPSED_OFFSET: 5,
+    EXPANDED_OFFSET: 15,
+  },
+} as const;
+
 const defaultCollapsedHeight: HeightFactory = (rect, isInstalled) =>
-  rect && rect.height > 0 ? 52 + rect.height : 41 + (isInstalled ? 0 : 5);
+  rect && rect.height > 0
+    ? NAV_CONFIG.WCO.HEADER_HEIGHT
+    : NAV_CONFIG.DEFAULT.COLLAPSED_HEIGHT +
+      (isInstalled ? 0 : NAV_CONFIG.PWA.COLLAPSED_OFFSET);
 
 const defaultExpandedHeight: HeightFactory = (rect, isInstalled) =>
-  rect && rect.height > 0 ? 122 : 81 + (isInstalled ? 0 : 15);
+  rect && rect.height > 0
+    ? NAV_CONFIG.WCO.HEADER_HEIGHT + rect.height
+    : NAV_CONFIG.DEFAULT.EXPANDED_HEIGHT +
+      (isInstalled ? 0 : NAV_CONFIG.PWA.EXPANDED_OFFSET);
 
 interface NavigationBarProps {
   /** The content to be rendered below the navigation bar. */
@@ -83,12 +104,15 @@ export default function NavigationBar({
   );
 
   // 5. Compute Static Title Styles
-  const titlePaddingLeft = usesWCO && titleBarRect ? titleBarRect.x + 8 : 0;
-  const titlePaddingRight =
+  const titleStyles =
     usesWCO && titleBarRect
-      ? window.innerWidth - (titleBarRect.x + titleBarRect.width)
-      : 0;
-  const titleHeight = usesWCO && titleBarRect ? titleBarRect.height : 0;
+      ? {
+          paddingLeft: titleBarRect.x + 8,
+          paddingRight:
+            window.innerWidth - (titleBarRect.x + titleBarRect.width),
+          height: titleBarRect.height,
+        }
+      : { paddingLeft: 0, paddingRight: 0, height: 0 };
 
   return (
     <>
@@ -118,13 +142,7 @@ export default function NavigationBar({
           borderBottom: "1px solid var(--joy-palette-divider)",
         }}
       >
-        {usesWCO && (
-          <NavigationBarTitle
-            paddingLeft={titlePaddingLeft}
-            paddingRight={titlePaddingRight}
-            height={titleHeight}
-          />
-        )}
+        {usesWCO && <NavigationBarTitle {...titleStyles} />}
         <NavigationBarHeader
           style={{
             paddingLeft: headerPaddingLeft,
@@ -137,6 +155,15 @@ export default function NavigationBar({
     </>
   );
 }
+
+const anchorStyle = {
+  position: "absolute",
+  scrollSnapAlign: "start",
+  width: "100vw",
+  height: 1,
+  background: "transparent",
+  zIndex: 10000,
+} as const;
 
 /**
  * Renders invisible snap anchors to facilitate scroll snapping behavior
@@ -160,15 +187,6 @@ function NavigationSnapAnchors({
   const snapBottomY = useTransform(
     () => pageScrollY.get() + navY.get() + heightVariation
   );
-
-  const anchorStyle = {
-    position: "absolute",
-    scrollSnapAlign: "start",
-    width: "100vw",
-    height: 1,
-    background: "transparent",
-    zIndex: 10000,
-  } as const;
 
   return (
     <>

@@ -2,8 +2,7 @@ import { Button, useColorScheme } from "@mui/joy";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import IconSun from "~icons/lucide/sun";
 import IconMoon from "~icons/lucide/moon";
-import IconSunMoon from "~icons/lucide/sun-moon";
-
+import IconLaptopMinimalCheck from "~icons/lucide/laptop-minimal-check";
 
 const modes = ["light", "dark", "system"] as const;
 
@@ -26,12 +25,13 @@ export default function ThemeSwitcher() {
         style={{
           overflow: "hidden",
           position: "relative",
-          minHeight: "fit-content",
+          minHeight: "initial",
           borderRadius: "100vmax",
           padding: ".625rem .775rem .625rem .625rem",
           fontSize: "var(--joy-fontSize-sm)",
           background:
             "color-mix(in srgb, var(--joy-palette-neutral-softBg), transparent 100%)",
+          whiteSpace: "nowrap",
         }}
         whileHover={{
           background:
@@ -65,7 +65,7 @@ export default function ThemeSwitcher() {
             }}
           >
             {mode === "system" ? (
-              <IconSunMoon />
+              <IconLaptopMinimalCheck />
             ) : mode === "light" ? (
               <IconSun />
             ) : (
