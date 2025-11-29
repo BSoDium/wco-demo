@@ -37,7 +37,7 @@ export default function NavigationBarHeader({
       {/* Left Side */}
       <Stack
         direction="row"
-        spacing={1.5}
+        gap={1.5}
         alignItems="center"
         color="var(--joy-palette-text-primary)"
       >
@@ -62,14 +62,7 @@ export default function NavigationBarHeader({
             outline: "1px solid var(--joy-palette-neutral-outlinedBorder)",
           }}
         />
-        <Typography
-          level="title-sm"
-          sx={{
-            display: { xs: "none", sm: "block" },
-          }}
-        >
-          Photonsquid
-        </Typography>
+        <Typography level="title-sm">Photonsquid</Typography>
 
         <Chip
           size="sm"
@@ -82,7 +75,12 @@ export default function NavigationBarHeader({
           Hobby
         </Chip>
 
-        <IconButton size="sm" variant="plain" color="neutral">
+        <IconButton
+          size="sm"
+          variant="plain"
+          color="neutral"
+          sx={{ paddingX: 0.5, minWidth: 0, ml: -1 }}
+        >
           <IconChevronUpDown />
         </IconButton>
       </Stack>
@@ -127,7 +125,6 @@ export default function NavigationBarHeader({
           color="neutral"
           sx={{
             borderRadius: "100vmax",
-            display: { xs: "none", sm: "inline-flex" },
           }}
         >
           <IconBell />
