@@ -51,9 +51,9 @@ export default function Main() {
         <Stack alignItems="flex-start" gap={3}>
           <Typography level="h1" fontSize="4rem" lineHeight={0.9} mb={1}>
             Experience the&nbsp;
-            <Typography color="primary">Web</Typography>
+            <Typography fontWeight="sm">Web</Typography>
             &nbsp;of&nbsp;
-            <Typography color="warning">Tomorrow</Typography>
+            <Typography color="primary">Tomorrow</Typography>
           </Typography>
           <Typography
             level="body-lg"

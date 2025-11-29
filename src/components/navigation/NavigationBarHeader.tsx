@@ -76,7 +76,7 @@ export default function NavigationBarHeader({
           variant="soft"
           color="neutral"
           sx={{
-            display: { xs: "none", sm: "inline-block" },
+            display: { xs: "none", sm: "inline-flex" },
           }}
         >
           Hobby
