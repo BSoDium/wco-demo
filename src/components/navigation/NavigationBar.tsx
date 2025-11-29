@@ -18,11 +18,23 @@ export type HeightFactory = (
   isInstalled: boolean
 ) => number;
 
+const WCO_HEADER_HEIGHT = 92; // Header + Tabs
+
+const NO_WCO_COLLAPSED_HEIGHT = 41;
+const NO_WCO_EXPANDED_HEIGHT = 81;
+
+const PWA_COLLAPSED_OFFSET = 5;
+const PWA_EXPANDED_OFFSET = 15;
+
 const defaultCollapsedHeight: HeightFactory = (rect, isInstalled) =>
-  rect && rect.height > 0 ? 52 + rect.height : 41 + (isInstalled ? 0 : 5);
+  rect && rect.height > 0
+    ? WCO_HEADER_HEIGHT
+    : NO_WCO_COLLAPSED_HEIGHT + (isInstalled ? 0 : PWA_COLLAPSED_OFFSET);
 
 const defaultExpandedHeight: HeightFactory = (rect, isInstalled) =>
-  rect && rect.height > 0 ? 122 : 81 + (isInstalled ? 0 : 15);
+  rect && rect.height > 0
+    ? WCO_HEADER_HEIGHT + rect.height
+    : NO_WCO_EXPANDED_HEIGHT + (isInstalled ? 0 : PWA_EXPANDED_OFFSET);
 
 interface NavigationBarProps {
   /** The content to be rendered below the navigation bar. */
