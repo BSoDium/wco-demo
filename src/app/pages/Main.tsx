@@ -12,6 +12,8 @@ import {
 import IconArrowUpRight from "~icons/lucide/arrow-up-right";
 import IconArrowDown from "~icons/lucide/arrow-down";
 import IconCheckCheck from "~icons/lucide/check-check";
+import IconSparkles from "~icons/hugeicons/sparkles";
+import IconParty from "~icons/hugeicons/party";
 import { css } from "@emotion/react";
 
 export default function Main() {
@@ -23,7 +25,6 @@ export default function Main() {
   return (
     <Box
       sx={{
-        minHeight: "300vh",
         backgroundSize: "40px 40px",
         backgroundImage:
           "radial-gradient(circle, var(--joy-palette-neutral-softHoverBg) 1px, transparent 1px)",
@@ -222,7 +223,15 @@ export default function Main() {
           <IconArrowDown />
         </Stack>
 
-        <Box sx={{ mt: 100 }}>
+        <Box sx={{ mt: 50 }}>
+          <IconSparkles
+            css={css`
+              font-size: 6rem;
+              & > * {
+                stroke-width: 0.5px;
+              }
+            `}
+          />
           <Typography level="h2" fontSize="3rem" mb={1}>
             Watch the Magic Happen
           </Typography>
@@ -239,7 +248,15 @@ export default function Main() {
           </Typography>
         </Box>
 
-        <Box sx={{ mt: 100, mb: 20 }}>
+        <Box sx={{ mt: 70, mb: 10 }}>
+          <IconParty
+            css={css`
+              font-size: 6rem;
+              & > * {
+                stroke-width: 0.5px;
+              }
+            `}
+          />
           <Typography level="h2" fontSize="3rem" mb={1}>
             You Made It!
           </Typography>
