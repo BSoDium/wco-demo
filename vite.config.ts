@@ -5,6 +5,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import { resolve } from "path";
 import { VitePWA } from "vite-plugin-pwa";
 import mkcert from "vite-plugin-mkcert";
+import svgr from "vite-plugin-svgr";
 import { themeConfig } from "./src/config/themeConfig";
 import { themeLoaderScript } from "./src/scripts/themeLoader";
 
@@ -16,6 +17,9 @@ export default defineConfig({
     react({
       jsxImportSource: "@emotion/react",
     }),
+    // Enable importing SVGs as React components
+    svgr(),
+    // Enable icon imports from unplugin-icons
     Icons({
       compiler: "jsx",
       jsx: "react",
