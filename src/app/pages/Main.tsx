@@ -50,9 +50,7 @@ export default function Main() {
       <Container maxWidth="md">
         <Stack alignItems="flex-start" gap={3}>
           <Typography level="h1" fontSize="4rem" lineHeight={0.9} mb={1}>
-            Experience the&nbsp;
-            <Typography fontWeight="sm">Web</Typography>
-            &nbsp;of&nbsp;
+            Experience the <Typography fontWeight="sm">Web</Typography> of{" "}
             <Typography color="primary">Tomorrow</Typography>
           </Typography>
           <Typography
