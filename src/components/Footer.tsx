@@ -61,7 +61,6 @@ export default function Footer() {
       component="footer"
       sx={{
         py: 2,
-        pb: 2,
         width: "100vw",
         backgroundColor: "background.surface",
         borderTop: "1px solid",
