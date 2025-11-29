@@ -14,19 +14,10 @@ import IconArrowDown from "~icons/lucide/arrow-down";
 import IconCheckCheck from "~icons/lucide/check-check";
 import IconSparkles from "~icons/hugeicons/sparkles";
 import IconParty from "~icons/hugeicons/party";
-import { css, keyframes } from "@emotion/react";
-
-const bounce = keyframes`
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
-  }
-  40% {
-    transform: translateY(-10px);
-  }
-  60% {
-    transform: translateY(-5px);
-  }
-`;
+import { css } from "@emotion/react";
+import { motion } from "motion/react";
+import ScrollDownHint from "@/components/ScrollDownHint";
+import Footer from "@/components/Footer";
 
 export default function Main() {
   const { install, isInstalled } = usePWAInstall();
@@ -173,41 +164,20 @@ export default function Main() {
               </Typography>
             )
           ) : supportsWCO ? (
-            <>
-              <Typography
-                level="body-lg"
-                fontSize="1.2rem"
-                lineHeight={1.2}
-                color="neutral"
-              >
-                All that's left is to
-                <Typography fontWeight="lg" textColor="text.primary">
-                  {" "}
-                  install{" "}
-                </Typography>
-                this app as a PWA. Don't worry, we make it easy for you, simply
-                click the button below, or the one in the address bar:
+            <Typography
+              level="body-lg"
+              fontSize="1.2rem"
+              lineHeight={1.2}
+              color="neutral"
+            >
+              All that's left is to
+              <Typography fontWeight="lg" textColor="text.primary">
+                {" "}
+                install{" "}
               </Typography>
-              <Button
-                variant="outlined"
-                color="neutral"
-                sx={{
-                  fontSize: "1.2rem",
-                  fontWeight: "md",
-                  minWidth: "initial",
-                  minHeight: "initial",
-                  pr: 1.5,
-                  pl: 1,
-                  py: 0.75,
-                  gap: 1,
-                  mt: 1,
-                }}
-                onClick={install}
-              >
-                <IconArrowDown style={{ fontSize: "1.1em" }} />
-                Install PWA
-              </Button>
-            </>
+              this app as a PWA. Don't worry, we make it easy for you, simply
+              click the left button below:
+            </Typography>
           ) : (
             <Typography
               level="body-lg"
@@ -224,27 +194,65 @@ export default function Main() {
               desktop platforms.
             </Typography>
           )}
+
+          <Stack direction="row" gap={1} mt={1}>
+            {!isInstalled && supportsWCO && (
+              <Button
+                component={motion.button}
+                variant="solid"
+                color="neutral"
+                sx={{
+                  fontWeight: "md",
+                }}
+                style={
+                  {
+                    minWidth: "initial",
+                    minHeight: "fit-content",
+                    fontSize: "1.2rem",
+                    padding: ".625rem .75rem .625rem .75rem",
+                    background:
+                      "color-mix(in srgb, var(--joy-palette-neutral-solidBg), var(--joy-palette-background-body) 0%)",
+                    "--icon-rotate": "-90deg",
+                  } as React.CSSProperties
+                }
+                whileHover={{
+                  background:
+                    "color-mix(in srgb, var(--joy-palette-neutral-solidBg), var(--joy-palette-background-body) 10%)",
+                  "--icon-rotate": "0deg",
+                }}
+                whileTap={{
+                  background:
+                    "color-mix(in srgb, var(--joy-palette-neutral-solidBg), var(--joy-palette-background-body) 20%)",
+                }}
+                transition={{
+                  background: { ease: "easeIn", duration: 0.2 },
+                  "--icon-rotate": {
+                    type: "spring",
+                    stiffness: 500,
+                    damping: 30,
+                  },
+                }}
+                onClick={install}
+                css={css`
+                  & > svg > * {
+                    stroke-width: 2px;
+                  }
+                `}
+              >
+                <IconArrowDown
+                  style={{
+                    fontSize: "1.1em",
+                    marginRight: "0.75rem",
+                    rotate: "var(--icon-rotate)",
+                  }}
+                />
+                Install PWA
+              </Button>
+            )}
+          </Stack>
         </Stack>
 
-        <Stack
-          alignItems="center"
-          gap={1}
-          sx={{
-            mt: 15,
-            opacity: 0.6,
-            animation: `${bounce} 2s infinite`,
-          }}
-        >
-          <Typography
-            level="body-xs"
-            fontWeight="lg"
-            textTransform="uppercase"
-            letterSpacing="md"
-          >
-            Scroll down
-          </Typography>
-          <IconArrowDown />
-        </Stack>
+        <ScrollDownHint />
 
         <Box sx={{ mt: 50 }}>
           <IconSparkles
@@ -295,6 +303,7 @@ export default function Main() {
           </Typography>
         </Box>
       </Container>
+      <Footer />
     </Box>
   );
 }
