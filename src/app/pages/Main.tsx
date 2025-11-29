@@ -14,7 +14,19 @@ import IconArrowDown from "~icons/lucide/arrow-down";
 import IconCheckCheck from "~icons/lucide/check-check";
 import IconSparkles from "~icons/hugeicons/sparkles";
 import IconParty from "~icons/hugeicons/party";
-import { css } from "@emotion/react";
+import { css, keyframes } from "@emotion/react";
+
+const bounce = keyframes`
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+`;
 
 export default function Main() {
   const { install, isInstalled } = usePWAInstall();
@@ -216,8 +228,21 @@ export default function Main() {
           )}
         </Stack>
 
-        <Stack alignItems="center" gap={1} sx={{ mt: 10 }}>
-          <Typography level="body-sm" fontWeight="lg">
+        <Stack
+          alignItems="center"
+          gap={1}
+          sx={{
+            mt: 15,
+            opacity: 0.6,
+            animation: `${bounce} 2s infinite`,
+          }}
+        >
+          <Typography
+            level="body-xs"
+            fontWeight="lg"
+            textTransform="uppercase"
+            letterSpacing="md"
+          >
             Scroll down
           </Typography>
           <IconArrowDown />
