@@ -11,12 +11,11 @@ import {
 } from "@mui/joy";
 import IconArrowUpRight from "~icons/lucide/arrow-up-right";
 import IconArrowDown from "~icons/lucide/arrow-down";
-import IconDownload from "~icons/lucide/download";
 import IconCheckCheck from "~icons/lucide/check-check";
 import { css } from "@emotion/react";
 
 export default function Main() {
-  const { isInstallable, install, isInstalled } = usePWAInstall();
+  const { install, isInstalled } = usePWAInstall();
   const titleBarRect = useTitleBarRect();
   const supportsWCO = titleBarRect !== null;
   const isWCOEnabled = supportsWCO && titleBarRect.height !== 0;
@@ -216,119 +215,43 @@ export default function Main() {
           )}
         </Stack>
 
-        <Box sx={{ mt: 100, textAlign: "center" }}>
-          <Typography level="h2" mb={2}>
+        <Stack alignItems="center" gap={1} sx={{ mt: 10 }}>
+          <Typography level="body-sm" fontWeight="lg">
+            Scroll down
+          </Typography>
+          <IconArrowDown />
+        </Stack>
+
+        <Box sx={{ mt: 100 }}>
+          <Typography level="h2" fontSize="3rem" mb={1}>
             Watch the Magic Happen
           </Typography>
-          <Typography
-            level="body-md"
-            color="neutral"
-            mb={4}
-            maxWidth="600px"
-            mx="auto"
-          >
+          <Typography level="body-md" color="neutral" mb={2} mx="auto">
             As you scroll, notice how the navigation bar dynamically collapses
-            and expands. This isn't just eye candy—it's a carefully orchestrated
-            dance using Framer Motion and scroll-linked animations.
+            and expands. Try scrolling until it reaches a state between fully
+            expanded and fully collapsed, to see how elegantly it snaps to
+            either end.
           </Typography>
-          <Typography
-            level="body-sm"
-            color="neutral"
-            maxWidth="600px"
-            mx="auto"
-          >
-            The navigation bar uses GPU-accelerated transforms for
+          <Typography level="body-md" color="neutral" mx="auto">
+            This implementation uses GPU-accelerated transforms for
             buttery-smooth 60fps animations, while intelligently adjusting its
             padding to accommodate window controls when running as a PWA.
           </Typography>
         </Box>
 
-        <Box sx={{ mt: 100, textAlign: "center" }}>
-          <Typography level="h2" mb={2}>
-            What Makes This Special?
+        <Box sx={{ mt: 100, mb: 20 }}>
+          <Typography level="h2" fontSize="3rem" mb={1}>
+            You Made It!
           </Typography>
-          <Stack spacing={3} alignItems="center">
-            <Box maxWidth="600px">
-              <Typography level="title-lg" mb={1}>
-                🎯 Progressive Enhancement
-              </Typography>
-              <Typography level="body-md" color="neutral">
-                The app works perfectly in any modern browser, but unlocks extra
-                features when installed as a PWA with WCO support.
-              </Typography>
-            </Box>
-            <Box maxWidth="600px">
-              <Typography level="title-lg" mb={1}>
-                🎨 Native Integration
-              </Typography>
-              <Typography level="body-md" color="neutral">
-                With WCO, the title bar becomes part of your app's canvas,
-                allowing for creative layouts that feel truly native.
-              </Typography>
-            </Box>
-            <Box maxWidth="600px">
-              <Typography level="title-lg" mb={1}>
-                ⚡ Smooth Performance
-              </Typography>
-              <Typography level="body-md" color="neutral">
-                Every animation is optimized for performance, using composited
-                transforms and careful state management.
-              </Typography>
-            </Box>
-          </Stack>
-        </Box>
-
-        {isInstallable && (
-          <Box sx={{ mt: 100, textAlign: "center" }}>
-            <Typography level="h2" mb={2}>
-              Ready for the Full Experience?
-            </Typography>
-            <Typography
-              level="body-md"
-              color="neutral"
-              mb={4}
-              maxWidth="600px"
-              mx="auto"
-            >
-              Install this app to see the Window Controls Overlay in action.
-              Your navigation bar will seamlessly blend with native window
-              controls, creating a truly immersive experience.
-            </Typography>
-            <Button
-              size="lg"
-              color="primary"
-              startDecorator={<IconDownload />}
-              onClick={install}
-            >
-              Install as PWA
-            </Button>
-          </Box>
-        )}
-
-        <Box sx={{ mt: 100, mb: 20, textAlign: "center" }}>
-          <Typography level="h2" mb={2}>
-            You Made It! 🎉
-          </Typography>
-          <Typography
-            level="body-md"
-            color="neutral"
-            mb={3}
-            maxWidth="600px"
-            mx="auto"
-          >
+          <Typography level="body-md" color="neutral" mb={2} mx="auto">
             Thanks for exploring this demo. The WCO API represents an exciting
             step forward in making Progressive Web Apps feel more native and
             integrated with the operating system.
           </Typography>
-          <Typography
-            level="body-sm"
-            color="neutral"
-            maxWidth="600px"
-            mx="auto"
-          >
-            This is just the beginning—imagine the possibilities when developers
-            can fully control the title bar space while maintaining all the
-            benefits of the web platform.
+          <Typography level="body-md" color="neutral" mx="auto">
+            This is just the beginning: imagine the possibilities when
+            developers can fully control the title bar space while maintaining
+            all the benefits of the web platform.
           </Typography>
         </Box>
       </Container>

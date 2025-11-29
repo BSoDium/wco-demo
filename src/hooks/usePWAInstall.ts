@@ -9,7 +9,11 @@ export function usePWAInstall() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstalled, setIsInstalled] = useState(() => {
     if (typeof window !== 'undefined') {
-      return window.matchMedia('(display-mode: standalone)').matches;
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+      if (isStandalone) {
+        return true;
+      }
+      return localStorage.getItem('isAppInstalled') === 'true';
     }
     return false;
   });
@@ -20,11 +24,15 @@ export function usePWAInstall() {
       e.preventDefault();
       // Stash the event so it can be triggered later.
       setDeferredPrompt(e as BeforeInstallPromptEvent);
+      // If the prompt fires, it means the app is not installed
+      setIsInstalled(false);
+      localStorage.removeItem('isAppInstalled');
     };
 
     const handleAppInstalled = () => {
       setIsInstalled(true);
       setDeferredPrompt(null);
+      localStorage.setItem('isAppInstalled', 'true');
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
