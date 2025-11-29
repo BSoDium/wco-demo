@@ -24,14 +24,14 @@ export default function FadingTypography({
   
   // When reduced motion is preferred, disable blur and y-offset animations
   const motionConfig = {
-    y: prefersReducedMotion ? 0 : 5,
+    y: prefersReducedMotion ? 0 : 10,
     blur: prefersReducedMotion ? "blur(0px)" : "blur(8px)",
     duration: prefersReducedMotion ? 0.2 : 0.4,
   };
 
   return (
     <Typography component="span" {...rest}>
-      <AnimatePresence mode="wait" onExitComplete={onTransitionEnd} initial={false}>
+      <AnimatePresence mode="popLayout" onExitComplete={onTransitionEnd} initial={false}>
         <motion.span
           key={text}
           initial={{ opacity: 0, y: motionConfig.y, filter: motionConfig.blur }}

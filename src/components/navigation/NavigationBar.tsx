@@ -19,10 +19,10 @@ export type HeightFactory = (
 ) => number;
 
 const defaultCollapsedHeight: HeightFactory = (rect, isInstalled) =>
-  rect && rect.height > 0 ? 50 + rect.height : 41 + (isInstalled ? 0 : 5);
+  rect && rect.height > 0 ? 52 + rect.height : 41 + (isInstalled ? 0 : 5);
 
 const defaultExpandedHeight: HeightFactory = (rect, isInstalled) =>
-  rect && rect.height > 0 ? 120 : 81 + (isInstalled ? 0 : 10);
+  rect && rect.height > 0 ? 122 : 81 + (isInstalled ? 0 : 15);
 
 interface NavigationBarProps {
   /** The content to be rendered below the navigation bar. */

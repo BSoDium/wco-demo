@@ -30,7 +30,7 @@ export default function NavigationBarHeader({
         alignItems: "center",
         justifyContent: "space-between",
         width: "100%",
-        mb: 1,
+        mb: 1.5,
       }}
       style={style}
     >
