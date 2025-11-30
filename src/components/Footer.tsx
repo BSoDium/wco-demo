@@ -93,7 +93,7 @@ export default function Footer() {
               <Link
                 href="https://bsodium.fr"
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 underline="always"
               >
                 BSoDium
@@ -105,7 +105,7 @@ export default function Footer() {
               <Link
                 href="https://vercel.com"
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 underline="always"
                 color="neutral"
               >
