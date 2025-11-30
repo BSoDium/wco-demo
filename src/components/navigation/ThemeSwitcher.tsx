@@ -2,7 +2,8 @@ import { Button, useColorScheme } from "@mui/joy";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import IconSun from "~icons/lucide/sun";
 import IconMoon from "~icons/lucide/moon";
-import IconLaptopMinimalCheck from "~icons/lucide/laptop-minimal-check";
+import IconSunMoon from "~icons/lucide/sun-moon";
+import { css } from "@emotion/react";
 
 const modes = ["light", "dark", "system"] as const;
 
@@ -28,6 +29,7 @@ export default function ThemeSwitcher() {
           minHeight: "initial",
           borderRadius: "100vmax",
           padding: ".625rem .775rem .625rem .625rem",
+          lineHeight: 1,
           fontSize: "var(--joy-fontSize-sm)",
           background:
             "color-mix(in srgb, var(--joy-palette-neutral-softBg), transparent 100%)",
@@ -63,9 +65,14 @@ export default function ThemeSwitcher() {
               marginRight: "0.5rem",
               fontSize: "1.1rem",
             }}
+            css={css`
+              svg > * {
+                stroke-width: 2.5px;
+              }
+            `}
           >
             {mode === "system" ? (
-              <IconLaptopMinimalCheck />
+              <IconSunMoon />
             ) : mode === "light" ? (
               <IconSun />
             ) : (
