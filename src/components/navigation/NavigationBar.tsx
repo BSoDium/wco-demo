@@ -107,7 +107,7 @@ export default function NavigationBar({
   const titleStyles =
     usesWCO && titleBarRect
       ? {
-          paddingLeft: titleBarRect.x + 8,
+          paddingLeft: titleBarRect.x + (titleBarRect.x === 0 ? 16 : 8),
           paddingRight:
             window.innerWidth - (titleBarRect.x + titleBarRect.width),
           height: titleBarRect.height,
