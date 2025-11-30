@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Container,
   Link,
   Stack,
   Typography,
@@ -73,13 +72,13 @@ export default function Footer() {
       component="footer"
       sx={{
         py: 2,
+        px: 4,
         width: "100vw",
         backgroundColor: "background.surface",
         borderTop: "1px solid",
         borderColor: "divider",
       }}
     >
-      <Container maxWidth="md">
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -87,7 +86,7 @@ export default function Footer() {
           flexWrap="wrap"
           gap={2}
         >
-          <Stack direction="row" gap={2} alignItems="center">
+          <Stack direction="row" gap={2} alignItems="center" px={1.3}>
             <Typography level="body-sm">
               © {new Date().getFullYear()}{" "}
               <Link
@@ -137,7 +136,6 @@ export default function Footer() {
             <ThemeSwitcher />
           </Stack>
         </Stack>
-      </Container>
     </Box>
   );
 }
