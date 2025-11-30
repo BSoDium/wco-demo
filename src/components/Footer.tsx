@@ -1,9 +1,18 @@
-import { Box, Button, Container, Stack, Typography } from "@mui/joy";
+import {
+  Box,
+  Button,
+  Container,
+  Link,
+  Stack,
+  Typography,
+  type ColorPaletteProp,
+} from "@mui/joy";
 import ThemeSwitcher from "@/components/navigation/ThemeSwitcher";
 import IconGithub from "~icons/lucide/github";
 import IconHeart from "~icons/lucide/heart";
 import IconCode from "~icons/lucide/code";
 import { motion } from "motion/react";
+import { css } from "@emotion/react";
 
 function FooterButton({
   href,
@@ -14,7 +23,7 @@ function FooterButton({
   href: string;
   startDecorator: React.ReactNode;
   children: React.ReactNode;
-  color?: "neutral" | "danger";
+  color?: ColorPaletteProp;
 }) {
   return (
     <Button
@@ -33,22 +42,25 @@ function FooterButton({
         borderRadius: "100vmax",
         padding: ".625rem .775rem .625rem .625rem",
         fontSize: "var(--joy-fontSize-sm)",
-        background:
-          "color-mix(in srgb, var(--joy-palette-neutral-softBg), transparent 100%)",
+        lineHeight: 1,
+        background: `color-mix(in srgb, var(--joy-palette-${color}-softBg), transparent 100%)`,
         textDecoration: "none",
         whiteSpace: "nowrap",
       }}
       whileHover={{
-        background:
-          "color-mix(in srgb, var(--joy-palette-neutral-softBg), transparent 50%)",
+        background: `color-mix(in srgb, var(--joy-palette-${color}-softBg), transparent 50%)`,
       }}
       whileTap={{
-        background:
-          "color-mix(in srgb, var(--joy-palette-neutral-softBg), transparent 0%)",
+        background: `color-mix(in srgb, var(--joy-palette-${color}-softBg), transparent 0%)`,
       }}
       transition={{
         background: { ease: "easeIn", duration: 0.2 },
       }}
+      css={css`
+        svg > * {
+          stroke-width: 2.5px;
+        }
+      `}
     >
       {children}
     </Button>
@@ -77,13 +89,31 @@ export default function Footer() {
         >
           <Stack direction="row" gap={2} alignItems="center">
             <Typography level="body-sm">
-              © {new Date().getFullYear()} BSoDium.
+              © {new Date().getFullYear()}{" "}
+              <Link
+                href="https://bsodium.fr"
+                target="_blank"
+                rel="noopener noreferrer"
+                underline="always"
+              >
+                BSoDium
+              </Link>
+              .
             </Typography>
             <Typography level="body-sm" color="neutral">
-              UI inspired by Vercel.
+              UI inspired by{" "}
+              <Link
+                href="https://vercel.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                underline="always"
+                color="neutral"
+              >
+                Vercel
+              </Link>
+              .
             </Typography>
           </Stack>
-
           <Stack direction="row" gap={1} alignItems="center" flexWrap="wrap">
             <FooterButton
               href="https://github.com/BSoDium"
