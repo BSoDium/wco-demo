@@ -7,10 +7,20 @@ interface BeforeInstallPromptEvent extends Event {
 
 export function usePWAInstall() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  
+  // Track whether the app is running in standalone mode (no browser chrome)
+  const [isStandalone, setIsStandalone] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia('(display-mode: standalone)').matches;
+    }
+    return false;
+  });
+
+  // Track whether the app has been installed (persisted in localStorage)
   const [isInstalled, setIsInstalled] = useState(() => {
     if (typeof window !== 'undefined') {
-      const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-      if (isStandalone) {
+      // If running in standalone mode, it's definitely installed
+      if (window.matchMedia('(display-mode: standalone)').matches) {
         return true;
       }
       return localStorage.getItem('isAppInstalled') === 'true';
@@ -18,6 +28,18 @@ export function usePWAInstall() {
     return false;
   });
 
+  // Listen for display-mode changes (e.g., when opening in standalone vs browser)
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(display-mode: standalone)');
+    const handleDisplayModeChange = (e: MediaQueryListEvent) => {
+      setIsStandalone(e.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleDisplayModeChange);
+    return () => mediaQuery.removeEventListener('change', handleDisplayModeChange);
+  }, []);
+
+  // Listen for PWA install prompt and installation events
   useEffect(() => {
     const handleBeforeInstallPrompt = (e: Event) => {
       // Prevent the mini-infobar from appearing on mobile
@@ -61,8 +83,13 @@ export function usePWAInstall() {
   };
 
   return {
+    /** Whether the app can be installed (prompt is available and not already installed) */
     isInstallable: !!deferredPrompt && !isInstalled,
+    /** Trigger the install prompt */
     install,
-    isInstalled
+    /** Whether the app has been installed (persisted, used for UI like hiding install buttons) */
+    isInstalled,
+    /** Whether the app is currently running in standalone mode (no browser chrome) - use this for layout calculations */
+    isStandalone,
   };
 }
