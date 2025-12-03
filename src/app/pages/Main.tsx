@@ -20,7 +20,7 @@ import ScrollDownHint from "@/components/ScrollDownHint";
 import Footer from "@/components/Footer";
 
 export default function Main() {
-  const { install, isInstalled } = usePWAInstall();
+  const { install, isInstalled, isInstallable } = usePWAInstall();
   const titleBarRect = useTitleBarRect();
   const supportsWCO = titleBarRect !== null;
   const isWCOEnabled = supportsWCO && titleBarRect.height !== 0;
@@ -233,6 +233,7 @@ export default function Main() {
                   },
                 }}
                 onClick={install}
+                disabled={!isInstallable}
                 css={css`
                   & > svg > * {
                     stroke-width: 2px;
