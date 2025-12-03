@@ -11,7 +11,8 @@ interface RelatedApplication {
   id?: string;
 }
 
-// HACK: Extend global interfaces to include PWA-related APIs
+// Extend global interfaces to include PWA-related APIs
+// TODO: Remove these declarations if/when they become part of TypeScript's lib.dom.d.ts
 declare global {
   interface WindowControlsOverlay extends EventTarget {
     visible: boolean;
