@@ -71,7 +71,7 @@ export default function Footer() {
     <Box
       component="footer"
       sx={{
-        py: 2,
+        py: 2.5,
         px: 4,
         width: "100vw",
         backgroundColor: "background.surface",

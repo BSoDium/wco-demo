@@ -9,6 +9,14 @@
     />
     <meta name="theme-color" content="#0A0E0E" />
     <title>WCO Demo</title>
+    <script>
+      // Capture beforeinstallprompt immediately, before any module scripts load
+      window.deferredPrompt = null;
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        window.deferredPrompt = e;
+      });
+    </script>
   </head>
   <body>
     <div id="root"></div>

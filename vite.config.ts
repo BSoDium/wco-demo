@@ -12,6 +12,34 @@ import { themeLoaderScript } from "./src/scripts/themeLoader";
 /** Whether the app is currently in "development" mode, as opposed to "test" or "production" */
 const dev = process.env.NODE_ENV === "development";
 
+/**
+ * Get the base URL for the app based on the environment.
+ * - Development: localhost with HTTPS (mkcert)
+ * - Vercel Preview: VERCEL_URL environment variable
+ * - Production: VERCEL_PROJECT_PRODUCTION_URL or fallback to known production URL
+ */
+function getBaseUrl(): string {
+  if (dev) {
+    // Local development with mkcert
+    return "https://localhost:5173";
+  }
+
+  // Vercel preview deployments
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+
+  // Vercel production (or fallback)
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
+
+  // Fallback to known production URL
+  return "https://wco-demo.bsodium.fr";
+}
+
+const baseUrl = getBaseUrl();
+
 export default defineConfig({
   plugins: [
     react({
@@ -49,6 +77,13 @@ export default defineConfig({
         display: "standalone",
         display_override: ["window-controls-overlay"],
         start_url: "/",
+        id: "/",
+        related_applications: [
+          {
+            platform: "webapp",
+            url: `${baseUrl}/manifest.webmanifest`,
+          },
+        ],
         icons: [
           {
             src: "android-chrome-192x192.png",

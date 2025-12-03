@@ -24,6 +24,7 @@ export default function Main() {
   const titleBarRect = useTitleBarRect();
   const supportsWCO = titleBarRect !== null;
   const isWCOEnabled = supportsWCO && titleBarRect.height !== 0;
+  const isInstallButtonDisabled = !isInstallable;
 
   return (
     <Box
@@ -211,7 +212,8 @@ export default function Main() {
                     fontSize: "1.2rem",
                     padding: ".625rem .75rem .625rem .75rem",
                     background:
-                      "color-mix(in srgb, var(--joy-palette-neutral-solidBg), var(--joy-palette-background-body) 0%)",
+                      `color-mix(in srgb, var(--joy-palette-neutral-solid${isInstallButtonDisabled ? "Disabled" : ""}Bg), var(--joy-palette-background-body) 0%)`,
+                    color: `var(--joy-palette-neutral-solid${isInstallButtonDisabled ? "Disabled" : ""}Color)`,
                     "--icon-rotate": "-90deg",
                   } as React.CSSProperties
                 }
@@ -233,7 +235,7 @@ export default function Main() {
                   },
                 }}
                 onClick={install}
-                disabled={!isInstallable}
+                disabled={isInstallButtonDisabled}
                 css={css`
                   & > svg > * {
                     stroke-width: 2px;

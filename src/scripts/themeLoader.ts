@@ -45,5 +45,4 @@ export const themeLoaderScript = (config: typeof themeConfig) => {
   document
     .querySelector('meta[name="theme-color"]')
     ?.setAttribute("content", themeColor);
-  console.log(`Applied ${activeMode} theme with color ${themeColor}`);
 };
