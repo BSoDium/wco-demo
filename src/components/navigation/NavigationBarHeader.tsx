@@ -16,11 +16,42 @@ import IconChevronUpDown from "~icons/lucide/chevrons-up-down";
 import IconSearch from "~icons/lucide/search";
 import IconTriangle from "~icons/lucide/triangle";
 
+// Breakpoints for WCO-aware responsive behavior (based on available width, not viewport)
+const WCO_BREAKPOINTS = {
+  SHOW_SEARCH: 700, // Show search input when available width >= 700px
+  SHOW_FEEDBACK: 600, // Show feedback button when available width >= 600px
+  SHOW_DOCS: 550, // Show docs button when available width >= 550px
+  SHOW_HOBBY_CHIP: 450, // Show "Hobby" chip when available width >= 450px
+} as const;
+
+interface NavigationBarHeaderProps {
+  style?: MotionStyle;
+  /**
+   * The available width for the header content.
+   * In WCO mode, this is the title bar width; otherwise undefined (use viewport breakpoints).
+   */
+  availableWidth?: number;
+}
+
 export default function NavigationBarHeader({
   style,
-}: {
-  style?: MotionStyle;
-}) {
+  availableWidth,
+}: NavigationBarHeaderProps) {
+  // Determine visibility based on availableWidth (WCO mode) or fall back to viewport breakpoints
+  const useWcoBreakpoints = availableWidth !== undefined;
+
+  const showSearch = useWcoBreakpoints
+    ? availableWidth >= WCO_BREAKPOINTS.SHOW_SEARCH
+    : undefined; // Let CSS breakpoints handle it
+  const showFeedback = useWcoBreakpoints
+    ? availableWidth >= WCO_BREAKPOINTS.SHOW_FEEDBACK
+    : undefined;
+  const showDocs = useWcoBreakpoints
+    ? availableWidth >= WCO_BREAKPOINTS.SHOW_DOCS
+    : undefined;
+  const showHobbyChip = useWcoBreakpoints
+    ? availableWidth >= WCO_BREAKPOINTS.SHOW_HOBBY_CHIP
+    : undefined;
   return (
     <Stack
       component={motion.div}
@@ -69,7 +100,12 @@ export default function NavigationBarHeader({
           variant="soft"
           color="neutral"
           sx={{
-            display: { xs: "none", sm: "inline-flex" },
+            display:
+              showHobbyChip === false
+                ? "none"
+                : showHobbyChip === true
+                ? "inline-flex"
+                : { xs: "none", sm: "inline-flex" },
           }}
         >
           Hobby
@@ -108,14 +144,26 @@ export default function NavigationBarHeader({
           }
           sx={{
             width: { md: 150, lg: 250 },
-            display: { xs: "none", sm: "none", md: "flex" },
+            display:
+              showSearch === false
+                ? "none"
+                : showSearch === true
+                ? "flex"
+                : { xs: "none", sm: "none", md: "flex" },
           }}
         />
         <Button
           size="sm"
           variant="outlined"
           color="neutral"
-          sx={{ display: { xs: "none", sm: "none", md: "inline-flex" } }}
+          sx={{
+            display:
+              showFeedback === false
+                ? "none"
+                : showFeedback === true
+                ? "inline-flex"
+                : { xs: "none", sm: "none", md: "inline-flex" },
+          }}
         >
           Feedback
         </Button>
@@ -135,7 +183,12 @@ export default function NavigationBarHeader({
           color="neutral"
           sx={{
             borderRadius: "100vmax",
-            display: { xs: "none", sm: "none", md: "inline-flex" },
+            display:
+              showDocs === false
+                ? "none"
+                : showDocs === true
+                ? "inline-flex"
+                : { xs: "none", sm: "none", md: "inline-flex" },
           }}
         >
           <IconBookOpen />

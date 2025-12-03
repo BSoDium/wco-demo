@@ -160,6 +160,7 @@ export default function NavigationBar({
             paddingLeft: headerPaddingLeft,
             paddingRight: headerPaddingRight,
           }}
+          availableWidth={usesWCO && titleBarRect ? titleBarRect.width : undefined}
         />
         <NavigationBarTabs />
       </Stack>
