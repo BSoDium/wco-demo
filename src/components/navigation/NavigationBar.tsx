@@ -21,18 +21,18 @@ export type HeightFactory = (
 // Navigation configuration constants
 const NAV_CONFIG = {
   // Individual component heights
-  HEADER_HEIGHT: 45, // NavigationBarHeader row height
+  HEADER_HEIGHT: 50, // NavigationBarHeader row height
   TABS_HEIGHT: 40, // NavigationBarTabs row height
 
   // Browser mode offsets (extra padding when address bar is visible)
   BROWSER: {
     COLLAPSED_OFFSET: 5,
-    EXPANDED_OFFSET: 15,
+    EXPANDED_OFFSET: 10,
   },
 
   // WCO mode offset (extra padding below window controls when collapsed)
   WCO: {
-    COLLAPSED_OFFSET: 8,
+    COLLAPSED_OFFSET: 2,
   },
 } as const;
 
@@ -160,7 +160,9 @@ export default function NavigationBar({
             paddingLeft: headerPaddingLeft,
             paddingRight: headerPaddingRight,
           }}
-          availableWidth={usesWCO && titleBarRect ? titleBarRect.width : undefined}
+          availableWidth={
+            usesWCO && titleBarRect ? titleBarRect.width : undefined
+          }
         />
         <NavigationBarTabs />
       </Stack>
