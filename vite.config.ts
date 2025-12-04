@@ -64,18 +64,20 @@ export default defineConfig(({ mode }) => {
           "favicon-32x32.png",
         ],
         manifest: {
-          name: "WCO Demo App",
+          name: "Window Controls Overlay Demo",
           short_name: "WCO Demo",
           description: "A demo app for Window Controls Overlay",
           theme_color: themeConfig.colors.light,
           display: "standalone",
           display_override: ["window-controls-overlay"],
           start_url: "/",
-          id: "/",
+          scope: "/",
+          id: "Window-Controls-Overlay-Demo",
           related_applications: [
             {
               platform: "webapp",
               url: `${baseUrl}/manifest.webmanifest`,
+              id: baseUrl,
             },
           ],
           icons: [

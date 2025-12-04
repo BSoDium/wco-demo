@@ -33,6 +33,8 @@ declare global {
  * @returns Object containing installation status, prompt function, and mode info.
  */
 export function usePWAInstall() {
+  const mediaQuery = window.matchMedia("(display-mode: standalone)");
+  
   // Initialize with early-captured prompt if available (event may fire before React mounts)
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(
@@ -40,21 +42,14 @@ export function usePWAInstall() {
     );
 
   // Track whether the app is installed (detected via getInstalledRelatedApps API)
-  const [isInstalled, setIsInstalled] = useState(() => {
-    // Start with standalone check as initial value
-    if (typeof window !== "undefined") {
-      return window.matchMedia("(display-mode: standalone)").matches;
-    }
-    return false;
-  });
+  const [isInstalled, setIsInstalled] = useState(
+    mediaQuery.matches
+  );
 
   // Track whether the app is running in standalone mode (no browser chrome)
-  const [isStandalone, setIsStandalone] = useState(() => {
-    if (typeof window !== "undefined") {
-      return window.matchMedia("(display-mode: standalone)").matches;
-    }
-    return false;
-  });
+  const [isStandalone, setIsStandalone] = useState(
+    mediaQuery.matches
+  );
 
   // Check installation status using getInstalledRelatedApps API
   useEffect(() => {
@@ -65,20 +60,21 @@ export function usePWAInstall() {
 
       try {
         const relatedApps = await navigator.getInstalledRelatedApps();
-        setIsInstalled(relatedApps.length > 0);
+        setIsInstalled(relatedApps.length > 0 || isStandalone);
       } catch (error) {
         console.warn("Failed to check installed apps:", error);
       }
     };
 
     checkInstallation();
-  }, []);
+  }, [isStandalone]);
 
   // Listen for display-mode changes (e.g., when opening in standalone vs browser)
   useEffect(() => {
     const mediaQuery = window.matchMedia("(display-mode: standalone)");
     const handleDisplayModeChange = (e: MediaQueryListEvent) => {
       setIsStandalone(e.matches);
+
       // If we enter standalone mode, app is definitely installed
       if (e.matches) {
         setIsInstalled(true);

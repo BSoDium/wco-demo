@@ -211,9 +211,12 @@ export default function Main() {
                     minHeight: "fit-content",
                     fontSize: "1.2rem",
                     padding: ".625rem .75rem .625rem .75rem",
-                    background:
-                      `color-mix(in srgb, var(--joy-palette-neutral-solid${isInstallButtonDisabled ? "Disabled" : ""}Bg), var(--joy-palette-background-body) 0%)`,
-                    color: `var(--joy-palette-neutral-solid${isInstallButtonDisabled ? "Disabled" : ""}Color)`,
+                    background: `color-mix(in srgb, var(--joy-palette-neutral-solid${
+                      isInstallButtonDisabled ? "Disabled" : ""
+                    }Bg), var(--joy-palette-background-body) 0%)`,
+                    color: `var(--joy-palette-neutral-solid${
+                      isInstallButtonDisabled ? "Disabled" : ""
+                    }Color)`,
                     "--icon-rotate": "-90deg",
                   } as React.CSSProperties
                 }
