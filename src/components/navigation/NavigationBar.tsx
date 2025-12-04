@@ -15,35 +15,48 @@ import {
 // Default height factories
 export type HeightFactory = (
   titleBarRect: DOMRect | null,
-  isInstalled: boolean
+  isStandalone: boolean
 ) => number;
 
 // Navigation configuration constants
 const NAV_CONFIG = {
-  WCO: {
-    HEADER_HEIGHT: 92, // Header + Tabs
-  },
-  DEFAULT: {
-    COLLAPSED_HEIGHT: 41,
-    EXPANDED_HEIGHT: 81,
-  },
-  PWA: {
+  // Individual component heights
+  HEADER_HEIGHT: 50, // NavigationBarHeader row height
+  TABS_HEIGHT: 40, // NavigationBarTabs row height
+
+  // Browser mode offsets (extra padding when address bar is visible)
+  BROWSER: {
     COLLAPSED_OFFSET: 5,
-    EXPANDED_OFFSET: 15,
+    EXPANDED_OFFSET: 10,
+  },
+
+  // WCO mode offset (extra padding below window controls when collapsed)
+  WCO: {
+    COLLAPSED_OFFSET: 2,
   },
 } as const;
 
-const defaultCollapsedHeight: HeightFactory = (rect, isInstalled) =>
-  rect && rect.height > 0
-    ? NAV_CONFIG.WCO.HEADER_HEIGHT
-    : NAV_CONFIG.DEFAULT.COLLAPSED_HEIGHT +
-      (isInstalled ? 0 : NAV_CONFIG.PWA.COLLAPSED_OFFSET);
+// Derived heights for different navbar states
+const HEIGHTS = {
+  // When collapsed (no title bar visible)
+  COLLAPSED: NAV_CONFIG.TABS_HEIGHT + 1, // Tabs + border
+  // When expanded (header + tabs visible)
+  EXPANDED: NAV_CONFIG.HEADER_HEIGHT + NAV_CONFIG.TABS_HEIGHT + 1, // Header + Tabs + border
+  // When using WCO (header + tabs, title bar handled separately)
+  WCO_BASE: NAV_CONFIG.HEADER_HEIGHT + NAV_CONFIG.TABS_HEIGHT,
+} as const;
 
-const defaultExpandedHeight: HeightFactory = (rect, isInstalled) =>
+const defaultCollapsedHeight: HeightFactory = (rect, isStandalone) =>
   rect && rect.height > 0
-    ? NAV_CONFIG.WCO.HEADER_HEIGHT + rect.height
-    : NAV_CONFIG.DEFAULT.EXPANDED_HEIGHT +
-      (isInstalled ? 0 : NAV_CONFIG.PWA.EXPANDED_OFFSET);
+    ? HEIGHTS.WCO_BASE + NAV_CONFIG.WCO.COLLAPSED_OFFSET
+    : HEIGHTS.COLLAPSED +
+      (isStandalone ? 0 : NAV_CONFIG.BROWSER.COLLAPSED_OFFSET);
+
+const defaultExpandedHeight: HeightFactory = (rect, isStandalone) =>
+  rect && rect.height > 0
+    ? HEIGHTS.WCO_BASE + rect.height
+    : HEIGHTS.EXPANDED +
+      (isStandalone ? 0 : NAV_CONFIG.BROWSER.EXPANDED_OFFSET);
 
 interface NavigationBarProps {
   /** The content to be rendered below the navigation bar. */
@@ -77,25 +90,24 @@ export default function NavigationBar({
   expandedHeight: expandedHeightFactory = defaultExpandedHeight,
   threshold = 100,
 }: NavigationBarProps) {
-  // 1. Get Title Bar Rect
   const titleBarRect = useTitleBarRect();
-  const { isInstalled } = usePWAInstall();
+  const { isStandalone } = usePWAInstall();
 
-  // 2. Calculate Heights
+  // Calculate heights from WCO and standalone status
   const { usesWCO, expandedHeight, heightVariation } = useNavigationHeights(
-    isInstalled,
+    isStandalone,
     titleBarRect,
     collapsedHeightFactory,
     expandedHeightFactory
   );
 
-  // 3. Handle Scroll Logic
+  // Handle scroll logic
   const { navY, pageScrollY } = useNavigationScrollBehavior(
     heightVariation,
     threshold
   );
 
-  // 4. Handle Layout Animations
+  // Handle layout animations
   const { headerPaddingLeft, headerPaddingRight } = useNavigationLayout(
     navY,
     heightVariation,
@@ -103,7 +115,7 @@ export default function NavigationBar({
     usesWCO
   );
 
-  // 5. Compute Static Title Styles
+  // Compute static title styles
   const titleStyles =
     usesWCO && titleBarRect
       ? {
@@ -148,6 +160,9 @@ export default function NavigationBar({
             paddingLeft: headerPaddingLeft,
             paddingRight: headerPaddingRight,
           }}
+          availableWidth={
+            usesWCO && titleBarRect ? titleBarRect.width : undefined
+          }
         />
         <NavigationBarTabs />
       </Stack>

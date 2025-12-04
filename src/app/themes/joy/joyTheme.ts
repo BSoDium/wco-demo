@@ -8,7 +8,7 @@ import {
   type VariantProp,
 } from "@mui/joy/styles";
 
-import { themeConfig } from "../../../config/themeConfig";
+import { themeConfig } from "@/config/themeConfig";
 
 export const schemes = ["light", "dark"] as const;
 export const defaultScheme = "light";

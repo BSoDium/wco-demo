@@ -11,16 +11,16 @@ import type { HeightFactory } from "./NavigationBar";
 
 /**
  * Calculates the collapsed and expanded heights of the navigation bar,
- * taking into account the Window Controls Overlay (WCO) and installation status.
+ * taking into account the Window Controls Overlay (WCO) and standalone mode.
  *
- * @param isInstalled - Whether the app is installed as a PWA.
+ * @param isStandalone - Whether the app is running in standalone mode (no browser chrome).
  * @param titleBarRect - The bounding rectangle of the title bar (WCO).
  * @param collapsedHeightFactory - Function or number for collapsed height.
  * @param expandedHeightFactory - Function or number for expanded height.
  * @returns Object containing WCO usage status, calculated heights, and height variation.
  */
 export function useNavigationHeights(
-  isInstalled: boolean,
+  isStandalone: boolean,
   titleBarRect: DOMRect | null,
   collapsedHeightFactory: HeightFactory | number,
   expandedHeightFactory: HeightFactory | number
@@ -29,11 +29,11 @@ export function useNavigationHeights(
 
   const collapsedHeight =
     typeof collapsedHeightFactory === "function"
-      ? collapsedHeightFactory(titleBarRect, isInstalled)
+      ? collapsedHeightFactory(titleBarRect, isStandalone)
       : collapsedHeightFactory;
   const expandedHeight =
     typeof expandedHeightFactory === "function"
-      ? expandedHeightFactory(titleBarRect, isInstalled)
+      ? expandedHeightFactory(titleBarRect, isStandalone)
       : expandedHeightFactory;
   const heightVariation = expandedHeight - collapsedHeight;
 
