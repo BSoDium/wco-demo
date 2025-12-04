@@ -9,41 +9,25 @@ import svgr from "vite-plugin-svgr";
 import { themeConfig } from "./src/config/themeConfig";
 
 /** Port to use for Vite development server */
-const VITE_PORT = 5174;
+const VITE_PORT = 1111;
+
+/**
+ * Get the base URL for the application based on the deployment environment.
+ * @returns The base URL as a string.
+ */
+function getBaseUrl() {
+  // Production and preview deployments on Vercel
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+  // Default to localhost for development
+  return `http://localhost:${VITE_PORT}`;
+}
 
 export default defineConfig(({ mode }) => {
   /** Whether the app is currently in "development" mode */
   const dev = mode === "development";
-
-  /**
-   * Get the base URL for the app based on the environment.
-   * - Development: localhost with HTTPS (mkcert)
-   * - Vercel Preview: VERCEL_URL environment variable
-   * - Production: VERCEL_PROJECT_PRODUCTION_URL or fallback to known production URL
-   */
-  function getBaseUrl(): string {
-    if (dev) {
-      // Local development with mkcert
-      return `https://localhost:${VITE_PORT}`;
-    }
-
-    // Vercel production
-    if (
-      process.env.VERCEL_ENV === "production" &&
-      process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ) {
-      return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
-    }
-
-    // Vercel preview deployments (or fallback if production var is missing)
-    if (process.env.VERCEL_URL) {
-      return `https://${process.env.VERCEL_URL}`;
-    }
-
-    // Fallback to known production URL
-    return "https://wco-demo.bsodium.fr";
-  }
-
+  /** Base URL for the application */
   const baseUrl = getBaseUrl();
 
   return {
