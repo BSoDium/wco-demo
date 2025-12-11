@@ -28,6 +28,5 @@ export default function useDisableScrollSnap() {
       };
     }
 
-    return undefined;
   }, []);
 }
