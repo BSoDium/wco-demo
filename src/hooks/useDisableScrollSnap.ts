@@ -13,7 +13,7 @@ export default function useDisableScrollSnap() {
     const ua = navigator.userAgent || "";
     const isIOSDevice =
       /iPad|iPhone|iPod/.test(ua) ||
-      (navigator.maxTouchPoints > 1 && /Macintosh/.test(ua));
+      ((navigator.maxTouchPoints ?? 0) > 1 && /Macintosh/.test(ua));
 
     // Safari-only (exclude other WebKit-based browsers on iOS)
     const isSafari =
