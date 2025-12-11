@@ -7,6 +7,10 @@ html {
   overflow-x: hidden;
 }
 
+html.no-scroll-snap {
+  scroll-snap-type: none !important;
+}
+
 body {
   margin: 0;
   padding: 0;
