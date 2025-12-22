@@ -27,7 +27,7 @@ function FooterButton({
   return (
     <Button
       component={motion.a}
-      layoutId={`footer-button-${href}`}
+      layout
       href={href}
       target="_blank"
       rel="noopener"
@@ -79,63 +79,63 @@ export default function Footer() {
         borderColor: "divider",
       }}
     >
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          flexWrap="wrap"
-          gap={2}
-        >
-          <Stack direction="row" gap={2} alignItems="center" px={1.3}>
-            <Typography level="body-sm">
-              © {new Date().getFullYear()}{" "}
-              <Link
-                href="https://bsodium.fr"
-                target="_blank"
-                rel="noopener noreferrer"
-                underline="always"
-              >
-                BSoDium
-              </Link>
-              .
-            </Typography>
-            <Typography level="body-sm" color="neutral">
-              UI inspired by{" "}
-              <Link
-                href="https://vercel.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                underline="always"
-                color="neutral"
-              >
-                Vercel
-              </Link>
-              .
-            </Typography>
-          </Stack>
-          <Stack direction="row" gap={1} alignItems="center" flexWrap="wrap">
-            <FooterButton
-              href="https://github.com/BSoDium"
-              startDecorator={<IconGithub />}
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        flexWrap="wrap"
+        gap={2}
+      >
+        <Stack direction="row" gap={2} alignItems="center" px={1.3}>
+          <Typography level="body-sm">
+            © {new Date().getFullYear()}{" "}
+            <Link
+              href="https://bsodium.fr"
+              target="_blank"
+              rel="noopener noreferrer"
+              underline="always"
             >
-              GitHub
-            </FooterButton>
-            <FooterButton
-              href="https://github.com/BSoDium/wco-demo"
-              startDecorator={<IconCode />}
+              BSoDium
+            </Link>
+            .
+          </Typography>
+          <Typography level="body-sm" color="neutral">
+            UI inspired by{" "}
+            <Link
+              href="https://vercel.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              underline="always"
+              color="neutral"
             >
-              Source Code
-            </FooterButton>
-            <FooterButton
-              href="https://github.com/sponsors/BSoDium"
-              color="danger"
-              startDecorator={<IconHeart />}
-            >
-              Sponsor
-            </FooterButton>
-            <ThemeSwitcher />
-          </Stack>
+              Vercel
+            </Link>
+            .
+          </Typography>
         </Stack>
+        <Stack direction="row" gap={1} alignItems="center" flexWrap="wrap">
+          <FooterButton
+            href="https://github.com/BSoDium"
+            startDecorator={<IconGithub />}
+          >
+            GitHub
+          </FooterButton>
+          <FooterButton
+            href="https://github.com/BSoDium/wco-demo"
+            startDecorator={<IconCode />}
+          >
+            Source Code
+          </FooterButton>
+          <FooterButton
+            href="https://github.com/sponsors/BSoDium"
+            color="danger"
+            startDecorator={<IconHeart />}
+          >
+            Sponsor
+          </FooterButton>
+          <ThemeSwitcher />
+        </Stack>
+      </Stack>
     </Box>
   );
 }
