@@ -7,6 +7,7 @@ import { VitePWA } from "vite-plugin-pwa";
 import mkcert from "vite-plugin-mkcert";
 import svgr from "vite-plugin-svgr";
 import { themeConfig } from "./app/config/themeConfig";
+import { vercelPreset } from "@vercel/remix/vite";
 
 /** Port to use for Vite development server */
 const VITE_PORT = 1111;
@@ -41,6 +42,7 @@ export default defineConfig(({ mode }) => {
           v3_relativeSplatPath: true,
           v3_throwAbortReason: true,
         },
+        presets: [vercelPreset()],
       }),
       svgr(),
       Icons({
