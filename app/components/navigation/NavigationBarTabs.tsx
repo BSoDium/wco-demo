@@ -1,7 +1,7 @@
 import { Box, Stack, Typography, useTheme } from "@mui/joy";
 import { motion, MotionConfig } from "motion/react";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "@remix-run/react";
 import Meta from "../Meta";
 
 const navigationBarTabStructure = [

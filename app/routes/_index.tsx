@@ -20,7 +20,6 @@ import { motion } from "motion/react";
 import ScrollDownHint from "@/components/ScrollDownHint";
 import Footer from "@/components/Footer";
 import NavigationBar from "@/components/navigation/NavigationBar";
-import { Outlet } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -68,7 +67,6 @@ export default function Index() {
 
   return (
     <NavigationBar>
-      <Outlet />
       <Box
         sx={{
           backgroundSize: "40px 40px",

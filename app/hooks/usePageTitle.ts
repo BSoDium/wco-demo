@@ -14,14 +14,15 @@ import { useEffect, useState } from "react";
  *   unless they also update the <title> element.
  */
 export function usePageTitle() {
-  const [title, setTitle] = useState(document.title);
+  const [title, setTitle] = useState(() => 
+    typeof document !== "undefined" ? document.title : ""
+  );
 
   useEffect(() => {
+    if (typeof document === "undefined") return;
+    
     const titleElement = document.querySelector("title");
     
-    // If no title element exists, we can't observe it.
-    // However, document.title might still work if created dynamically, 
-    // but usually <title> exists in index.html
     if (!titleElement) return;
 
     const observer = new MutationObserver(() => {

@@ -103,6 +103,7 @@ export function usePWAInstall() {
           const relatedApps = await navigator.getInstalledRelatedApps();
           setIsInstalled(relatedApps.length > 0);
         } catch {
+          // Ignore errors - keep isInstalled as true since appinstalled event fired
         }
       }
     };
