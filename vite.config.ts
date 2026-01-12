@@ -90,7 +90,7 @@ export default defineConfig(({ mode }) => {
           ],
         },
       }),
-      ...(dev ? [mkcert()] : []),
+      ...(dev && process.env.ENABLE_HTTPS ? [mkcert()] : []),
     ],
     resolve: {
       alias: {

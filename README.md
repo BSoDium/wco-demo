@@ -11,7 +11,7 @@ The [**Window Controls Overlay (WCO) API**](https://developer.mozilla.org/en-US/
 
 Despite its potential to create native-like experiences (similar to VS Code, Spotify, or Discord), there are **surprisingly few open-source demos** or comprehensive guides on how to implement it effectively in a React application.
 
-**This project aims to fill that gap.** It serves as a case study and a reference implementation for building a polished, production-ready title bar experience that adapts seamlessly to the WCO environment.
+**This project aims to fill that gap.** It serves as a case study and a reference implementation for building a polished, production-ready title bar experience that adapts seamlessly to the WCO environment. The app is built with **Remix for server-side rendering (SSR)**, providing excellent SEO capabilities and fast initial page loads while maintaining a rich, interactive client-side experience.
 
 ## Inspiration
 
@@ -71,16 +71,27 @@ The `NavigationBar` component is "environment-aware":
     ```bash
     yarn dev
     ```
+    The app will be available at `http://localhost:1111`
 
-4.  **Test the PWA:**
+4.  Build for production:
+    ```bash
+    yarn build
+    ```
+
+5.  Start the production server:
+    ```bash
+    yarn start
+    ```
+
+6.  **Test the PWA:**
     -   Open the app in Chrome or Edge.
     -   Click the "Install" icon in the address bar.
     -   Launch the installed app to see the Window Controls Overlay in action.
 
 ## Tech Stack
 
--   **Framework:** [React 19](https://react.dev/)
--   **Build Tool:** [Vite](https://vitejs.dev/)
+-   **Framework:** [React 19](https://react.dev/) with [Remix](https://remix.run/) for SSR
+-   **Build Tool:** [Vite](https://vitejs.dev/) (via Remix Vite integration)
 -   **PWA Support:** [Vite PWA Plugin](https://vite-pwa-org.netlify.app/)
 -   **Styling:** [MUI Joy UI](https://mui.com/joy-ui/getting-started/) & [Emotion](https://emotion.sh/)
 -   **Animations:** [Motion](https://motion.dev/) (formerly Framer Motion)

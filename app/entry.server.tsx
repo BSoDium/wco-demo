@@ -32,7 +32,7 @@ export default function handleRequest(
           responseHeaders.set("Content-Type", "text/html");
 
           resolve(
-            new Response(stream as any, {
+            new Response(stream as unknown as BodyInit, {
               headers: responseHeaders,
               status: responseStatusCode,
             })
