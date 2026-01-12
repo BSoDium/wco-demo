@@ -12,6 +12,8 @@ dev-dist
 dist
 dist-ssr
 *.local
+build
+.cache
 
 # Editor directories and files
 .vscode/*
