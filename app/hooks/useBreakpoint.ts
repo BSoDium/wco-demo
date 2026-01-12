@@ -1,4 +1,4 @@
-import joyTheme, { type JoyBreakpoints } from "@/app/themes/joy/joyTheme";
+import joyTheme, { type JoyBreakpoints } from "@/themes/joyTheme";
 import { useMediaQuery } from "usehooks-ts";
 
 export type JoyBreakpointSelector = Exclude<

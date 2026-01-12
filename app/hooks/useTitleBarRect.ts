@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 const getWindowControlsOverlay = () => {
+  if (typeof navigator === "undefined") return null;
   if ("windowControlsOverlay" in navigator && navigator.windowControlsOverlay) {
     return navigator.windowControlsOverlay;
   }

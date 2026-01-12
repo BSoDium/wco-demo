@@ -10,7 +10,8 @@ export default function useThemeColor() {
     themeConfig.colors.light;
 
   useEffect(() => {
-    // Update theme-color meta tag (it's already created in index.html)
+    if (typeof document === "undefined") return;
+    
     const themeColorMetaTag = document.querySelector('meta[name="theme-color"]');
     if (themeColorMetaTag) {
       themeColorMetaTag.setAttribute("content", themeColor);

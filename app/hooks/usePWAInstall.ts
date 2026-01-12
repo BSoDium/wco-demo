@@ -33,26 +33,25 @@ declare global {
  * @returns Object containing installation status, prompt function, and mode info.
  */
 export function usePWAInstall() {
-  const mediaQuery = window.matchMedia("(display-mode: standalone)");
+  const isClient = typeof window !== "undefined";
+  const mediaQuery = isClient ? window.matchMedia("(display-mode: standalone)") : null;
   
-  // Initialize with early-captured prompt if available (event may fire before React mounts)
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(
-      () => (window.deferredPrompt as BeforeInstallPromptEvent) ?? null
+      () => (isClient && window.deferredPrompt as BeforeInstallPromptEvent) ?? null
     );
 
-  // Track whether the app is installed (detected via getInstalledRelatedApps API)
   const [isInstalled, setIsInstalled] = useState(
-    mediaQuery.matches
+    mediaQuery?.matches ?? false
   );
 
-  // Track whether the app is running in standalone mode (no browser chrome)
   const [isStandalone, setIsStandalone] = useState(
-    mediaQuery.matches
+    mediaQuery?.matches ?? false
   );
 
-  // Check installation status using getInstalledRelatedApps API
   useEffect(() => {
+    if (!isClient) return;
+    
     const checkInstallation = async () => {
       if (!navigator.getInstalledRelatedApps) {
         return;
@@ -67,15 +66,15 @@ export function usePWAInstall() {
     };
 
     checkInstallation();
-  }, [isStandalone]);
+  }, [isStandalone, isClient]);
 
-  // Listen for display-mode changes (e.g., when opening in standalone vs browser)
   useEffect(() => {
+    if (!isClient) return;
+    
     const mediaQuery = window.matchMedia("(display-mode: standalone)");
     const handleDisplayModeChange = (e: MediaQueryListEvent) => {
       setIsStandalone(e.matches);
 
-      // If we enter standalone mode, app is definitely installed
       if (e.matches) {
         setIsInstalled(true);
       }
@@ -84,10 +83,11 @@ export function usePWAInstall() {
     mediaQuery.addEventListener("change", handleDisplayModeChange);
     return () =>
       mediaQuery.removeEventListener("change", handleDisplayModeChange);
-  }, []);
+  }, [isClient]);
 
-  // Listen for PWA install prompt event (also captures late-firing events)
   useEffect(() => {
+    if (!isClient) return;
+    
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
@@ -98,13 +98,11 @@ export function usePWAInstall() {
       setDeferredPrompt(null);
       setIsInstalled(true);
 
-      // Re-check with getInstalledRelatedApps for confirmation
       if (navigator.getInstalledRelatedApps) {
         try {
           const relatedApps = await navigator.getInstalledRelatedApps();
           setIsInstalled(relatedApps.length > 0);
         } catch {
-          // Keep isInstalled as true since appinstalled event fired
         }
       }
     };
@@ -119,7 +117,7 @@ export function usePWAInstall() {
       );
       window.removeEventListener("appinstalled", handleAppInstalled);
     };
-  }, []);
+  }, [isClient]);
 
   const install = async () => {
     if (!deferredPrompt) {
@@ -138,17 +136,9 @@ export function usePWAInstall() {
   };
 
   return {
-    /** Whether the install prompt is available (app can be installed) */
     isInstallable: !!deferredPrompt && !isInstalled,
-    /** Trigger the install prompt */
     install,
-    /**
-     * Whether the app is installed.
-     * Detected via getInstalledRelatedApps API when available,
-     * falls back to standalone mode detection.
-     */
     isInstalled,
-    /** Whether the app is currently running in standalone mode (no browser chrome) - use this for layout calculations */
     isStandalone,
   };
 }
