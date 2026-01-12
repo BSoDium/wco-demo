@@ -31,6 +31,9 @@ export default defineConfig(({ mode }) => {
       port: VITE_PORT,
       strictPort: true,
     },
+    ssr: {
+      noExternal: [/^@mui/, "@emotion/react", "@emotion/styled"],
+    },
     plugins: [
       remix({
         future: {
